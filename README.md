@@ -43,17 +43,17 @@ All provider packages must adhere to the following file structure:
 ```bash
 ├── LICENSE # A license is required, MIT or Apache is preferred.
 ├── README.md
-├── sample_provider # Your package import directory. This will contain all Airflow modules and example DAGs.
+├── mlflow_provider # Your package import directory. This will contain all Airflow modules and example DAGs.
 │   ├── __init__.py
 │   ├── example_dags
 │   │   ├── __init__.py
 │   │   └── sample-dag.py
 │   ├── hooks
 │   │   ├── __init__.py
-│   │   └── sample_hook.py
+│   │   └── mlflow_hook.py
 │   ├── operators
 │   │   ├── __init__.py
-│   │   └── sample_operator.py
+│   │   └── mlflow_operator.py
 │   └── sensors
 │       ├── __init__.py
 │       └── sample_sensor.py
@@ -143,8 +143,8 @@ def get_provider_info():
         "package-name": "airflow-provider-sample'",
         "name": "Sample Airflow Provider", # Required
         "description": "A sample template for airflow providers.", # Required
-        "hook-class-names": ["sample_provider.hooks.sample_hook.SampleHook"],
-        "extra-links": ["sample_provider.operators.sample_operator.ExtraLink"],
+        "hook-class-names": ["mlflow_provider.hooks.sample_hook.MLflowHook"],
+        "extra-links": ["mlflow_provider.operators.sample_operator.ExtraLink"],
         "versions": ["0.0.1"] # Required
     }
 ```

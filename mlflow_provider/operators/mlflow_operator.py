@@ -4,10 +4,10 @@ from airflow.exceptions import AirflowException
 from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
 
-from sample_provider.hooks.sample_hook import SampleHook
+from mlflow_provider.hooks.mlflow_hook import MLflowHook
 
 
-class SampleOperator(BaseOperator):
+class MLflowOperator(BaseOperator):
     """
     Calls an endpoint on an HTTP system to execute an action.
 
@@ -58,7 +58,7 @@ class SampleOperator(BaseOperator):
 
     def execute(self, context: Dict[str, Any]) -> Any:
 
-        hook = SampleHook(self.method, sample_conn_id=self.sample_conn_id)
+        hook = MLflowHook(self.method, mlflow_conn_id=self.sample_conn_id)
 
         self.log.info("Call HTTP method")
 

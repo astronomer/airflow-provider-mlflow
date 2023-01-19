@@ -4,7 +4,7 @@ from airflow.exceptions import AirflowException
 from airflow.sensors.base import BaseSensorOperator
 from airflow.utils.decorators import apply_defaults
 
-from sample_provider.hooks.sample_hook import SampleHook
+from mlflow_provider.hooks.mlflow_hook import MLflowHook
 
 
 class SampleSensor(BaseSensorOperator):
@@ -49,7 +49,7 @@ class SampleSensor(BaseSensorOperator):
         self.request_params = request_params or {}
         self.headers = headers or {}
 
-        self.hook = SampleHook(method=method, sample_conn_id=sample_conn_id)
+        self.hook = MLflowHook(method=method, sample_conn_id=sample_conn_id)
 
     def poke(self, context: Dict[Any, Any]) -> bool:
         from airflow.utils.operator_helpers import make_kwargs_callable

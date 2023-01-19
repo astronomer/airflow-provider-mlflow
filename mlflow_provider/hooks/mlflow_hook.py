@@ -8,33 +8,33 @@ from airflow.exceptions import AirflowException
 from airflow.hooks.base import BaseHook
 
 
-class SampleHook(BaseHook):
+class MLflowHook(BaseHook):
     """
     Sample Hook that interacts with an HTTP endpoint the Python requests library.
 
     :param method: the API method to be called
     :type method: str
-    :param sample_conn_id: connection that has the base API url i.e https://www.google.com/
+    :param mlflow_conn_id: connection that has the base API url i.e https://www.google.com/
         and optional authentication credentials. Default headers can also be specified in
         the Extra field in json format.
-    :type sample_conn_id: str
+    :type mlflow_conn_id: str
     :param auth_type: The auth type for the service
     :type auth_type: AuthBase of python requests lib
     """
 
-    conn_name_attr = 'sample_conn_id'
-    default_conn_name = 'http_default'
+    conn_name_attr = 'mlflow_conn_id'
+    default_conn_name = 'mlflow_default'
     conn_type = 'http'
-    hook_name = 'HTTP'
+    hook_name = 'MLflow Client'
 
     def __init__(
-        self,
-        method: str = 'POST',
-        sample_conn_id: str = default_conn_name,
-        auth_type: Any = HTTPBasicAuth,
+            self,
+            method: str = 'POST',
+            mlflow_conn_id: str = default_conn_name,
+            auth_type: Any = HTTPBasicAuth,
     ) -> None:
         super().__init__()
-        self.sample_conn_id = sample_conn_id
+        self.mlflow_conn_id = mlflow_conn_id
         self.method = method.upper()
         self.base_url: str = ""
         self.auth_type: Any = auth_type
@@ -48,8 +48,8 @@ class SampleHook(BaseHook):
         """
         session = requests.Session()
 
-        if self.sample_conn_id:
-            conn = self.get_connection(self.sample_conn_id)
+        if self.mlflow_conn_id:
+            conn = self.get_connection(self.mlflow_conn_id)
 
             if conn.host and "://" in conn.host:
                 self.base_url = conn.host
@@ -61,8 +61,15 @@ class SampleHook(BaseHook):
 
             if conn.port:
                 self.base_url = self.base_url + ":" + str(conn.port)
-            if conn.login:
+
+            if conn.login and conn.login != 'token':
                 session.auth = self.auth_type(conn.login, conn.password)
+            elif conn.login == 'token':
+                if headers is not None:
+                    headers['Authorization'] = 'Bearer {}'.format(conn.password)
+                else:
+                    headers = {'Authorization': 'Bearer {}'.format(conn.password)}
+
             if conn.extra:
                 try:
                     session.headers.update(conn.extra_dejson)
@@ -75,11 +82,11 @@ class SampleHook(BaseHook):
         return session
 
     def run(
-        self,
-        endpoint: Optional[str] = None,
-        data: Optional[Union[Dict[str, Any], str]] = None,
-        headers: Optional[Dict[str, Any]] = None,
-        **request_kwargs: Any,
+            self,
+            endpoint: Optional[str] = None,
+            data: Optional[Union[Dict[str, Any], str]] = None,
+            headers: Optional[Dict[str, Any]] = None,
+            **request_kwargs: Any,
     ) -> Any:
         r"""
         Performs the request

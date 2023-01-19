@@ -3,8 +3,8 @@ from datetime import timedelta
 
 from airflow.decorators import dag, task
 
-from sample_provider.operators.sample_operator import SampleOperator
-from sample_provider.sensors.sample_sensor import SampleSensor
+from mlflow_provider.operators.mlflow_operator import MLflowOperator
+from mlflow_provider.sensors.sample_sensor import SampleSensor
 
 
 @dag(
@@ -28,7 +28,7 @@ def sample_worflow():
     - host: www.httpbin.org
     """
 
-    task_get_op = SampleOperator(task_id="get_op", method="get")
+    task_get_op = MLflowOperator(task_id="get_op", method="get")
 
     task_sensor = SampleSensor(task_id="sensor", sample_conn_id="conn_sample", endpoint="")
 
