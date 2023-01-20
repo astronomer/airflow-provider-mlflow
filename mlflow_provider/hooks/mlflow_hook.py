@@ -8,6 +8,7 @@ from airflow.exceptions import AirflowException
 from airflow.hooks.base import BaseHook
 import re
 
+
 class MLflowHook(BaseHook):
     """
     Sample Hook that interacts with an HTTP endpoint the Python requests library.
@@ -118,7 +119,7 @@ class MLflowHook(BaseHook):
                 # req = requests.get(url=url, params=request_params, headers=headers),
         else:
             # Others use data
-            req = requests.post( url, data=data, headers=headers)
+            req = requests.post(url, data=data, headers=headers)
 
         prepped_request = session.prepare_request(req)
 
@@ -126,7 +127,7 @@ class MLflowHook(BaseHook):
 
         try:
             response = session.send(prepped_request)
-            return response
+            return response.json()
 
         except requests.exceptions.ConnectionError as ex:
             self.log.warning(
