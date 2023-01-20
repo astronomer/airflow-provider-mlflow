@@ -113,16 +113,12 @@ class MLflowHook(BaseHook):
                 req = requests.Request(
                     self.method, url, headers=headers)
             else:
-                # string_params = re.sub('{|}|"|\'', '', str(request_params))
-                # string_params = string_params.replace(': ', '=').replace(', ', '&')
-                # req = requests.Request(
-                #     self.method, url+'?'+string_params, headers=headers)
-
-                req = requests.get(url=url, params=request_params, headers=headers),
+                req = requests.Request(
+                    self.method, url, headers=headers, params=request_params)
+                # req = requests.get(url=url, params=request_params, headers=headers),
         else:
             # Others use data
-            req = requests.Request(
-                self.method, url, data=data, headers=headers)
+            req = requests.post( url, data=data, headers=headers)
 
         prepped_request = session.prepare_request(req)
 
