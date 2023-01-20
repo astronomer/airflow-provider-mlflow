@@ -6,7 +6,7 @@ from requests.auth import HTTPBasicAuth
 
 from airflow.exceptions import AirflowException
 from airflow.hooks.base import BaseHook
-
+import re
 
 class MLflowHook(BaseHook):
     """
@@ -86,6 +86,7 @@ class MLflowHook(BaseHook):
             endpoint: Optional[str] = None,
             data: Optional[Union[Dict[str, Any], str]] = None,
             headers: Optional[Dict[str, Any]] = None,
+            request_params: Optional[Dict[str, Any]] = None,
             **request_kwargs: Any,
     ) -> Any:
         r"""
@@ -108,8 +109,14 @@ class MLflowHook(BaseHook):
 
         if self.method == 'GET':
             # GET uses params
-            req = requests.Request(
-                self.method, url, headers=headers)
+            if request_params is None:
+                req = requests.Request(
+                    self.method, url, headers=headers)
+            else:
+                string_params = re.sub('{|}|"|\'', '', str(request_params))
+                string_params = string_params.replace(': ', '=').replace(', ', '&')
+                req = requests.Request(
+                    self.method, url+'?'+string_params, headers=headers)
         else:
             # Others use data
             req = requests.Request(
