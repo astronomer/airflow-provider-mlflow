@@ -4,7 +4,7 @@ from datetime import timedelta
 from airflow.decorators import dag, task
 
 from mlflow_provider.operators.mlflow_operator import MLflowOperator
-from mlflow_provider.hooks.mlflow_hook import MLflowHook
+from mlflow_provider.hooks.mlflow_hook import MLflowClientHook
 from mlflow_provider.sensors.sample_sensor import SampleSensor
 
 
@@ -13,9 +13,10 @@ from mlflow_provider.sensors.sample_sensor import SampleSensor
     schedule_interval=None,
     # ``default_args`` will get passed on to each task. You can override them on a per-task basis during
     # operator initialization.
-    default_args={"retries": 2, sample_conn_id: "conn_sample"},
+    default_args={"retries": 2},
     tags=["example"],
     default_view="graph",
+    catchup=False
 )
 def sample_workflow():
     """
@@ -36,10 +37,28 @@ def sample_workflow():
     # task_get_op #>> task_sensor
 
     @task
-    def hook_example():
-        hook = MLflowHook()
-        hook.run(
-
+    def hook_get_example():
+        hook = MLflowClientHook(method="GET")
+        response = hook.run(
+            endpoint='api/2.0/mlflow/experiments/get-by-name',
+            request_params={'experiment_name': 'census_prediction'}
         )
 
-sample_workflow_dag = sample_workflow()
+        print(response)
+        return response
+
+    def hook_post_example():
+        hook = MLflowClientHook()
+        response = hook.run(
+            endpoint='api/2.0/mlflow/registered-models/create',
+            data={'name': 'census_prediction'}
+        )
+
+        print(response)
+        return response
+
+    test_hook_get = hook_get_example()
+    test_hook_post = hook_post_example()
+
+
+sample_workflow()

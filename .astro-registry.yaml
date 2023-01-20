@@ -20,7 +20,7 @@ docs_url: https://github.com/astronomer/airflow-provider-mlflow/blob/main/README
 # value should be "mlflow_provider.hooks.sample_hook.MLflowHook".
 
 hooks:
-  - module: mlflow_provider.hooks.sample_hook.MLflowHook
+  - module: mlflow_provider.hooks.sample_hook.MLflowClientHook
 
 operators:
   - module: mlflow_provider.operators.sample_operator.MLflowOperator

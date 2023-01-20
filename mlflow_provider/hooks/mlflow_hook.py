@@ -6,10 +6,9 @@ from requests.auth import HTTPBasicAuth
 
 from airflow.exceptions import AirflowException
 from airflow.hooks.base import BaseHook
-import re
 
 
-class MLflowHook(BaseHook):
+class MLflowClientHook(BaseHook):
     """
     Sample Hook that interacts with an HTTP endpoint the Python requests library.
 
@@ -99,6 +98,8 @@ class MLflowHook(BaseHook):
         :type data: dict
         :param headers: additional headers to be passed through as a dictionary
         :type headers: dict
+        :param request_params: get request params,
+        :type request_params: dict
         """
 
         session = self.get_conn(headers)
@@ -116,7 +117,6 @@ class MLflowHook(BaseHook):
             else:
                 req = requests.Request(
                     self.method, url, headers=headers, params=request_params)
-                # req = requests.get(url=url, params=request_params, headers=headers),
         else:
             # Others use data
             req = requests.post(url, data=data, headers=headers)
