@@ -112,14 +112,12 @@ class MLflowClientHook(BaseHook):
         if self.method == 'GET':
             # GET uses params
             if request_params is None:
-                req = requests.Request(
-                    self.method, url, headers=headers)
+                req = requests.Request(self.method, url, headers=headers)
             else:
-                req = requests.Request(
-                    self.method, url, headers=headers, params=request_params)
+                req = requests.Request(self.method, url, headers=headers, params=request_params)
         else:
             # Others use data
-            req = requests.post(url, data=data, headers=headers)
+            req = requests.Request(self.method, url, headers=headers, data=data)
 
         prepped_request = session.prepare_request(req)
 
