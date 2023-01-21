@@ -117,7 +117,7 @@ class MLflowClientHook(BaseHook):
                 req = requests.Request(self.method, url, headers=headers, params=request_params)
         else:
             # Others use data
-            req = requests.Request(self.method, url, headers=headers, params=request_params)
+            req = requests.Request(self.method, url, headers=headers, json=request_params)
 
         prepped_request = session.prepare_request(req)
 
