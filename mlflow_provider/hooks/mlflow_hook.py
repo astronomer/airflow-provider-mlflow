@@ -84,7 +84,6 @@ class MLflowClientHook(BaseHook):
     def run(
             self,
             endpoint: Optional[str] = None,
-            data: Optional[Union[Dict[str, Any], str]] = None,  # TODO cleanup if not used
             headers: Optional[Dict[str, Any]] = None,
             request_params: Optional[Dict[str, Any]] = None,
             **request_kwargs: Any,
@@ -94,11 +93,9 @@ class MLflowClientHook(BaseHook):
 
         :param endpoint: the endpoint to be called i.e. resource/v1/query?
         :type endpoint: str
-        :param data: payload to be uploaded or request parameters
-        :type data: dict
         :param headers: additional headers to be passed through as a dictionary
         :type headers: dict
-        :param request_params: get request params,
+        :param request_params: request params,
         :type request_params: dict
         """
 
@@ -128,6 +125,4 @@ class MLflowClientHook(BaseHook):
             return response
 
         except requests.exceptions.ConnectionError as ex:
-            self.log.warning(
-                '%s Tenacity will retry to execute the operation', ex)
             raise ex

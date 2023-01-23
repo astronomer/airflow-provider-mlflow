@@ -13,14 +13,12 @@ class CreateRegisteredModelOperator(BaseOperator):
 
     :param mlflow_conn_id: connection to run the operator with
     :type mlflow_conn_id: str
-    :param endpoint: The relative part of the full url. (templated)
-    :type endpoint: str
-    :param method: The HTTP method to use, default = "POST"
-    :type method: str
-    :param data: The data to pass
-    :type data: a dictionary of key/value string pairs
-    :param headers: The HTTP headers to be added to the request
-    :type headers: a dictionary of string key/value pairs
+    :param name: name of the registered model to be created
+    :type name: str
+    :param tags: tags to add to the registered model
+    :type tags: list[Dict[str, str]]
+    :param description: description of model
+    :type description: str
     """
 
     # Specify the arguments that are allowed to parse with jinja templating
@@ -74,7 +72,6 @@ class CreateRegisteredModelOperator(BaseOperator):
             endpoint=self.endpoint,
             request_params=request_params)
 
-        # TODO handle response errors codes
         if response.status_code != 200:
             raise AirflowException(f"Error {response.status_code}: {response.text}")
 
