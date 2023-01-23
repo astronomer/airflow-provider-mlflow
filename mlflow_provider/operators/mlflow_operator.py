@@ -78,4 +78,4 @@ class CreateRegisteredModelOperator(BaseOperator):
 
         # TODO handle response errors codes
 
-        return response.text
+        return response.json()

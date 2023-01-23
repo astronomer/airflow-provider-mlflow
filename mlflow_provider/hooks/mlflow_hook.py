@@ -125,7 +125,7 @@ class MLflowClientHook(BaseHook):
 
         try:
             response = session.send(prepped_request)
-            return response.json()
+            return response
 
         except requests.exceptions.ConnectionError as ex:
             self.log.warning(
