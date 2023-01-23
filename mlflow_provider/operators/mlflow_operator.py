@@ -70,12 +70,12 @@ class CreateRegisteredModelOperator(BaseOperator):
 
         self.log.info("Call HTTP method")
 
-        print(request_params)
-
         response = hook.run(
             endpoint=self.endpoint,
             request_params=request_params)
 
         # TODO handle response errors codes
+        if response.status_code != 200:
+            raise AirflowException(f"Error {response.status_code}: {response.text}")
 
         return response.json()
