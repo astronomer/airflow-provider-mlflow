@@ -39,8 +39,8 @@ class CreateRegisteredModelOperator(BaseOperator):
         *,
         mlflow_conn_id: str = 'mlflow_default',
         name: str,
-        tags: Optional[list[Dict[str, str]]],
-        description: Optional[str],
+        tags: Optional[list[Dict[str, str]]] = None,
+        description: Optional[str] = None,
         **kwargs: Any,
     ) -> None:
         super().__init__(**kwargs)
@@ -48,8 +48,8 @@ class CreateRegisteredModelOperator(BaseOperator):
         self.method = 'POST'
         self.endpoint = 'api/2.0/mlflow/registered-models/create'
         self.name = name
-        self.tags = tags or None
-        self.description = description or None
+        self.tags = tags
+        self.description = description
         if kwargs.get('xcom_push') is not None:
             raise AirflowException(
                 "'xcom_push' was deprecated, use 'BaseOperator.do_xcom_push' instead")
