@@ -84,7 +84,7 @@ class MLflowClientHook(BaseHook):
     def run(
             self,
             endpoint: Optional[str] = None,
-            data: Optional[Union[Dict[str, Any], str]] = None,
+            data: Optional[Union[Dict[str, Any], str]] = None,  # TODO cleanup if not used
             headers: Optional[Dict[str, Any]] = None,
             request_params: Optional[Dict[str, Any]] = None,
             **request_kwargs: Any,
