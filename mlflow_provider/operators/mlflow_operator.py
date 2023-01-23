@@ -48,8 +48,8 @@ class CreateRegisteredModelOperator(BaseOperator):
         self.method = 'POST'
         self.endpoint = 'api/2.0/mlflow/registered-models/create'
         self.name = name
-        self.tags = tags
-        self.description = description
+        self.tags = tags or None
+        self.description = description or None
         if kwargs.get('xcom_push') is not None:
             raise AirflowException(
                 "'xcom_push' was deprecated, use 'BaseOperator.do_xcom_push' instead")
