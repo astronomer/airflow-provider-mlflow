@@ -294,7 +294,7 @@ class CreateModelVersionsOperator(BaseOperator):
             name: str,
             source: str,
             run_id: Optional[str] = None,
-            tags: Optional[list[Dict[str], str]] = None,
+            tags: Optional[list[Dict[str, str]]] = None,
             run_link: Optional[str] = None,
             description: Optional[str] = None,
             **kwargs: Any,
