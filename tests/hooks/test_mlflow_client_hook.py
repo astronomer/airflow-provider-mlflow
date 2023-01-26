@@ -27,7 +27,7 @@ log = logging.getLogger(__name__)
 @mock.patch.dict('os.environ', AIRFLOW_CONN_MLFLOW_CONNECTION='http://https%3A%2F%2Fwww.httpbin.org%2F')
 class TestMLflowClientHook(unittest.TestCase):
     """
-    Test Sample Hook.
+    Test MLflow Client Hook.
     """
 
     @requests_mock.mock()
