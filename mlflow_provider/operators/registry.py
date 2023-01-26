@@ -188,7 +188,6 @@ class DeleteRegisteredModelOperator(BaseOperator):
         if response.status_code != 200:
             raise AirflowException(f"Error {response.status_code}: {response.text}")
 
-        return response.json()
 
 
 class GetLatestModelVersionsOperator(BaseOperator):
@@ -259,7 +258,7 @@ class CreateModelVersionsOperator(BaseOperator):
 
     :param mlflow_conn_id: connection to run the operator with
     :type mlflow_conn_id: str
-    :param name: name of the registered model to delete
+    :param name: name of the registered model
     :type name: str
     :param source: URI indicating the location of the model artifacts
     :type source: str
@@ -468,8 +467,6 @@ class DeleteModelVersionOperator(BaseOperator):
         if response.status_code != 200:
             raise AirflowException(f"Error {response.status_code}: {response.text}")
 
-        return response.json()
-
 
 # TODO determine if we want to implement Search ModelVersions
 
@@ -509,7 +506,7 @@ class TransitionModelVersionStageOperator(BaseOperator):
             name: str,
             version: str,
             stage: str,
-            archive_existing_versions: bool,
+            archive_existing_versions: Optional[bool] = False,
             **kwargs: Any,
     ) -> None:
         super().__init__(**kwargs)
