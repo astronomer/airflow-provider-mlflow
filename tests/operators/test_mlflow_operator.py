@@ -5,7 +5,7 @@ Requires the unittest, pytest, and requests-mock Python libraries.
 
 Run test:
 
-    python3 -m unittest tests.operators.test_sample_operator.TestSampleOperator
+    python3 -m unittest tests.operators.test_sample_operator.TestMLflowOperator
 
 """
 
@@ -18,7 +18,7 @@ import unittest
 from unittest import mock
 
 # Import Operator
-from sample_provider.operators.sample_operator import SampleOperator
+from mlflow_provider.operators.registry import MLflowOperator
 
 
 log = logging.getLogger(__name__)
@@ -26,7 +26,7 @@ log = logging.getLogger(__name__)
 
 # Mock the `conn_sample` Airflow connection
 @mock.patch.dict('os.environ', AIRFLOW_CONN_CONN_SAMPLE='http://https%3A%2F%2Fwww.httpbin.org%2F')
-class TestSampleOperator(unittest.TestCase):
+class TestMLflowOperator(unittest.TestCase):
     """
     Test Sample Operator.
     """
@@ -37,7 +37,7 @@ class TestSampleOperator(unittest.TestCase):
         # Mock endpoint
         m.get('https://www.httpbin.org/', json={'data': 'mocked response'})
 
-        operator = SampleOperator(
+        operator = MLflowOperator(
             task_id='run_operator',
             sample_conn_id='conn_sample',
             method='get'
