@@ -42,7 +42,7 @@ class TestMLflowClientHook(unittest.TestCase):
             method='post'
         )
 
-        # Sample Hook's run method executes an API call
+        # Hook's run method executes an API call
         response = hook.run(
             endpoint='api/endpoint',
             request_params={'param1': 'value1'}
@@ -69,7 +69,7 @@ class TestMLflowClientHook(unittest.TestCase):
             method='get'
         )
 
-        # Sample Hook's run method executes an API call
+        # Hook's run method executes an API call
         response = hook.run(
             endpoint='api/endpoint',
             request_params={'param1': 'value1', 'param2': 'value2'}
@@ -96,14 +96,11 @@ class TestMLflowClientHook(unittest.TestCase):
             method='DELETE'
         )
 
-        # Sample Hook's run method executes an API call
+        # Hook's run method executes an API call
         response = hook.run(
             endpoint='api/endpoint',
             request_params={'param1': 'value1'}
         )
-
-        # Retrieve response payload
-        # payload = response.json()
 
         # Assert success status code
         assert response.status_code == 200
