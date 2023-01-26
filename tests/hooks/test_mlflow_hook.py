@@ -5,7 +5,7 @@ Requires the unittest, pytest, and requests-mock Python libraries.
 
 Run test:
 
-    python3 -m unittest tests.hooks.test_sample_hook.TestMLflowHook
+    python3 -m unittest tests.hooks.test_sample_hook.TestMLflowClientHook
 
 """
 
@@ -17,7 +17,7 @@ import unittest
 from unittest import mock
 
 # Import Hook
-from mlflow_provider.hooks.mlflow_hook import MLflowHook
+from mlflow_provider.hooks.mlflow_hook import MLflowClientHook
 
 
 log = logging.getLogger(__name__)
@@ -25,7 +25,7 @@ log = logging.getLogger(__name__)
 
 # Mock the `conn_sample` Airflow connection
 @mock.patch.dict('os.environ', AIRFLOW_CONN_CONN_SAMPLE='http://https%3A%2F%2Fwww.httpbin.org%2F')
-class TestMLflowHook(unittest.TestCase):
+class TestMLflowClientHook(unittest.TestCase):
     """
     Test Sample Hook.
     """
@@ -37,7 +37,7 @@ class TestMLflowHook(unittest.TestCase):
         m.post('https://www.httpbin.org/', json={'data': 'mocked response'})
 
         # Instantiate hook
-        hook = MLflowHook(
+        hook = MLflowClientHook(
             mlflow_conn_id='conn_sample',
             method='post'
         )
@@ -61,7 +61,7 @@ class TestMLflowHook(unittest.TestCase):
         m.get('https://www.httpbin.org/', json={'data': 'mocked response'})
 
         # Instantiate hook
-        hook = MLflowHook(
+        hook = MLflowClientHook(
             mlflow_conn_id='conn_sample',
             method='get'
         )

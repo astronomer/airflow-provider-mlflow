@@ -18,7 +18,7 @@ import unittest
 from unittest import mock
 
 # Import Operator
-from mlflow_provider.operators.mlflow_operator import MLflowOperator
+from mlflow_provider.operators.registry import MLflowOperator
 
 
 log = logging.getLogger(__name__)
