@@ -8,7 +8,7 @@ package-name: mlflow_provider
 display-name: MLflow Provider
 # A description to be displayed on the main Provider page.
 # TODO Update description
-description: A template repo for building and releasing Airflow provider packages.
+description: An Mlflow provider for Apache Airlfow for Machine Learning Ops.
 # URL for where user should find the documentation for the Provider. This could be a link to the README,
 # an external docs site, etc.
 docs_url: https://github.com/astronomer/airflow-provider-mlflow/blob/main/README.md
@@ -23,7 +23,7 @@ hooks:
   - module: mlflow_provider.hooks.sample_hook.MLflowClientHook
 
 operators:
-  - module: mlflow_provider.operators.sample_operator.MLflowOperator
+  - module: mlflow_provider.operators.registry.MLflowOperator
 
-sensors:
-  - module: mlflow_provider.sensors.sample_sensor.SampleSensor
+#sensors:
+#  - module: mlflow_provider.sensors.sample_sensor.SampleSensor
