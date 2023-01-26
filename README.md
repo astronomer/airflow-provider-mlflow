@@ -53,7 +53,7 @@ All provider packages must adhere to the following file structure:
 │   │   └── mlflow_hook.py
 │   ├── operators
 │   │   ├── __init__.py
-│   │   └── mlflow_operator.py
+│   │   └── registry.py
 │   └── sensors
 │       ├── __init__.py
 │       └── sample_sensor.py
