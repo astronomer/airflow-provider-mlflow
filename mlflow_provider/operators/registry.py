@@ -189,7 +189,6 @@ class DeleteRegisteredModelOperator(BaseOperator):
             raise AirflowException(f"Error {response.status_code}: {response.text}")
 
 
-
 class GetLatestModelVersionsOperator(BaseOperator):
     """
     Calls an endpoint on an HTTP system to execute an action.
