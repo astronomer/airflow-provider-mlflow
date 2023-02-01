@@ -8,7 +8,7 @@ package-name: mlflow_provider
 display-name: MLflow Provider
 # A description to be displayed on the main Provider page.
 # TODO Update description
-description: An Mlflow provider for Apache Airlfow for Machine Learning Ops.
+description: An Mlflow provider for Apache Airflow for Machine Learning Ops.
 # URL for where user should find the documentation for the Provider. This could be a link to the README,
 # an external docs site, etc.
 docs_url: https://github.com/astronomer/airflow-provider-mlflow/blob/main/README.md
@@ -20,7 +20,7 @@ docs_url: https://github.com/astronomer/airflow-provider-mlflow/blob/main/README
 # value should be "mlflow_provider.hooks.sample_hook.MLflowHook".
 
 hooks:
-  - module: mlflow_provider.hooks.sample_hook.MLflowClientHook
+  - module: mlflow_provider.hooks.sample_hook.MLflowDeploymentHook
 
 operators:
   - module: mlflow_provider.operators.registry.MLflowOperator

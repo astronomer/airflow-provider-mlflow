@@ -17,7 +17,7 @@ import unittest
 from unittest import mock
 
 # Import Hook
-from mlflow_provider.hooks.mlflow_hook import MLflowClientHook
+from mlflow_provider.hooks.client import MLflowClientHook
 
 
 log = logging.getLogger(__name__)

@@ -50,7 +50,7 @@ All provider packages must adhere to the following file structure:
 │   │   └── sample-dag.py
 │   ├── hooks
 │   │   ├── __init__.py
-│   │   └── mlflow_hook.py
+│   │   └── client.py
 │   ├── operators
 │   │   ├── __init__.py
 │   │   └── registry.py
