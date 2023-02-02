@@ -16,7 +16,7 @@ class MLflowDeploymentHook(MLflowBaseHook):
 
     :param aws_conn_id: AWS connection to use with hook
     :type aws_conn_id: str
-    :param target_uri: Sagemaker URI
+    :param target_uri: target system URI to deploy model to. (ie 'sagemaker')
     :type target_uri: str
     """
 
@@ -47,15 +47,45 @@ class MLflowDeploymentHook(MLflowBaseHook):
 
     def get_conn(self) -> BaseDeploymentClient:
         """
-        Returns MLflow Sagemaker Client.
+        Returns MLflow deployment Client.
         """
 
-        conn_type = self.get_connection(self.target_conn_id).conn_type
+        target_conn_type = self.get_connection(self.target_conn_id).conn_type
 
         # TODO see if other connection types for AWS need to be handled
-        if conn_type == 'aws':
+        if target_conn_type == 'aws':
             aws_auth_env = self.aws_conn_dict()
             self._set_env_variables(aws_auth_env)
 
         return get_deploy_client(self.target_uri)
+
+    def create_deployment(
+            self,
+            name: str,
+            model_uri: str,
+            flavor: Optional[str] = None,
+            config: Optional[dict] = None,
+            endpoint: Optional[str] = None
+    ):
+        client = self.get_conn()
+        
+        result = client.create_deployment(
+            name=name,
+            model_uri=model_uri,
+            flavor=flavor,
+            config=config,
+            endpoint=endpoint
+        )
+
+        target_conn_type = self.get_connection(self.target_conn_id).conn_type
+        if target_conn_type == 'aws':
+            aws_auth_env = self.aws_conn_dict()
+            self.unset_env_variables(other_env=aws_auth_env)
+        else:
+            self.unset_env_variables()
+
+        return result
+        
+
+
 

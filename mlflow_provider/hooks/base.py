@@ -76,7 +76,7 @@ class MLflowBaseHook(BaseHook):
                 except KeyError as e:
                     logging.warning(f'{variable_name} could not be removed because it does not exist. {e}')
 
-        if other_env is not None:
+        if other_env:
             for k in other_env.keys():
                 try:
                     del os.environ[k]

@@ -27,6 +27,7 @@ class CreateDeploymentOperator(BaseOperator):
             name: str,
             model_uri: str,
             target_uri: str,
+            target_conn_id: str = None,
             flavor: Optional[str] = None,
             config: Optional[dict] = None,
             endpoint: Optional[str] = None,
@@ -37,6 +38,7 @@ class CreateDeploymentOperator(BaseOperator):
         self.name = name
         self.model_uri = model_uri
         self.target_uri = target_uri
+        self.target_conn_id = target_conn_id
         self.flavor = flavor
         self.config = config
         self.endpoint = endpoint
@@ -46,12 +48,11 @@ class CreateDeploymentOperator(BaseOperator):
 
     def execute(self, context: Dict[str, Any]) -> Any:
 
-        client = MLflowDeploymentHook(target_uri=self.target_uri)
+        client = MLflowDeploymentHook(target_uri=self.target_uri, target_conn_id=self.target_conn_id)
 
-        response = client.create_deployment(
+        result = client.create_deployment(
             name=self.name,
             model_uri = self.model_uri,
-            target_uri = self.target_uri,
             flavor = self.flavor,
             config = self.config,
             endpoint = self.endpoint
@@ -59,7 +60,7 @@ class CreateDeploymentOperator(BaseOperator):
 
         client.unset_env_variables()
 
-        return response.json()
+        return result
 
 
 
