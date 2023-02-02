@@ -15,12 +15,11 @@ class CreateDeploymentOperator(BaseOperator):
         'model_uri',
         'endpoint',
         'target_uri',
-        'target_conn_id',
         'flavor',
         'config',
         'endpoint',
     ]
-    # template_fields_renderers = {'tags': 'json'}
+    template_fields_renderers = {'config': 'json'}
     template_ext = ()
     ui_color = '#f4a460'
 
