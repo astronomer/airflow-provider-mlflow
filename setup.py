@@ -20,7 +20,7 @@ setup(
     license='Apache License 2.0',
     packages=['mlflow_provider', 'mlflow_provider.hooks',
               'mlflow_provider.sensors', 'mlflow_provider.operators'],
-    install_requires=['apache-airflow>=2.0'],
+    install_requires=['apache-airflow>=2.0', 'mlflow>=2.0'],
     setup_requires=['setuptools', 'wheel'],
     author='Faisal Hoda',
     author_email='faisal@astronomer.io',
