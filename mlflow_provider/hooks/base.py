@@ -9,7 +9,7 @@ from airflow.hooks.base import BaseHook
 import logging
 
 
-class MLflowBaseHook(BaseHook, ABC):
+class MLflowBaseHook(BaseHook):
     """
     Base for MLflow hooks that interacts with a Python API
 
@@ -17,8 +17,8 @@ class MLflowBaseHook(BaseHook, ABC):
     :type mlflow_conn_id: str
     """
 
-    mlflow_conn_name_attr = 'mlflow_conn_id'
-    mlflow_default_conn_name = 'mlflow_default'
+    conn_name_attr = 'mlflow_conn_id'
+    default_conn_name = 'mlflow_default'
     conn_type = 'http'
 
     mlflow_env_variables = [
