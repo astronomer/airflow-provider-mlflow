@@ -47,7 +47,7 @@ All provider packages must adhere to the following file structure:
 │   ├── __init__.py
 │   ├── example_dags
 │   │   ├── __init__.py
-│   │   └── sample-dag.py
+│   │   └── sample-dag-registry.py
 │   ├── hooks
 │   │   ├── __init__.py
 │   │   └── client.py
