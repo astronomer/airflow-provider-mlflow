@@ -25,10 +25,12 @@ class MLflowDeploymentHook(MLflowBaseHook):
 
     def __init__(
             self,
+            mlflow_conn_id: str,
             target_uri: str,
             target_conn_id: str = None
     ) -> None:
         super().__init__()
+        self.mlflow_conn_id = mlflow_conn_id
         self.target_uri = target_uri
         self.target_conn_id = target_conn_id
 

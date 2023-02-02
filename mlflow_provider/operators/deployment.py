@@ -48,7 +48,11 @@ class CreateDeploymentOperator(BaseOperator):
 
     def execute(self, context: Dict[str, Any]) -> Any:
 
-        client = MLflowDeploymentHook(target_uri=self.target_uri, target_conn_id=self.target_conn_id)
+        client = MLflowDeploymentHook(
+            mlflow_conn_id=self.mlflow_conn_id,
+            target_uri=self.target_uri,
+            target_conn_id=self.target_conn_id
+        )
 
         result = client.create_deployment(
             name=self.name,

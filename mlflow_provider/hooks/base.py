@@ -44,6 +44,7 @@ class MLflowBaseHook(BaseHook):
         """
 
         conn = self.get_connection(self.mlflow_conn_id)
+
         if 'cloud.databricks.com' in conn.host:
             os.environ['MLFLOW_TRACKING_URI'] = 'databricks'
         else:
