@@ -56,6 +56,8 @@ class MLflowDeploymentHook(MLflowBaseHook):
         if target_conn_type == 'aws':
             aws_auth_env = self.aws_conn_dict()
             self._set_env_variables(aws_auth_env)
+        else:
+            self._set_env_variables()
 
         return get_deploy_client(self.target_uri)
 

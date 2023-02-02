@@ -58,8 +58,6 @@ class CreateDeploymentOperator(BaseOperator):
             endpoint = self.endpoint
         )
 
-        client.unset_env_variables()
-
         return result
 
 
