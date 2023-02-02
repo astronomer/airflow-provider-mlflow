@@ -13,7 +13,12 @@ class CreateDeploymentOperator(BaseOperator):
     template_fields = [
         'name',
         'model_uri',
-        'endpoint'
+        'endpoint',
+        'target_uri',
+        'target_conn_id',
+        'flavor',
+        'config',
+        'endpoint',
     ]
     # template_fields_renderers = {'tags': 'json'}
     template_ext = ()
