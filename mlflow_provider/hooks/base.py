@@ -30,7 +30,7 @@ class MLflowBaseHook(BaseHook):
 
     def __init__(
             self,
-            mlflow_conn_id: str = mlflow_default_conn_name,
+            mlflow_conn_id: str = default_conn_name,
     ) -> None:
         super().__init__()
         self.mlflow_conn_id = mlflow_conn_id
