@@ -3,14 +3,13 @@ from abc import ABC
 from typing import Any, Callable, Dict, Optional, Union
 
 from airflow.models import Connection
-from requests.auth import HTTPBasicAuth
 
 from airflow.exceptions import AirflowException
 from airflow.hooks.base import BaseHook
 import logging
 
 
-class MLflowBaseHook(BaseHook):
+class MLflowBaseHook(BaseHook, ABC):
     """
     Base for MLflow hooks that interacts with a Python API
 
