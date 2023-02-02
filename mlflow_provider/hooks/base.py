@@ -25,7 +25,9 @@ class MLflowBaseHook(BaseHook):
         'MLFLOW_TRACKING_URI',
         'MLFLOW_TRACKING_TOKEN',
         'MLFLOW_TRACKING_USERNAME',
-        'MLFLOW_TRACKING_PASSWORD'
+        'MLFLOW_TRACKING_PASSWORD',
+        'DATABRICKS_HOST',
+        'DATABRICKS_TOKEN'
     ]
 
     def __init__(
