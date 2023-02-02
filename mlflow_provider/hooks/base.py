@@ -47,6 +47,8 @@ class MLflowBaseHook(BaseHook):
 
         if 'cloud.databricks.com' in conn.host:
             os.environ['MLFLOW_TRACKING_URI'] = 'databricks'
+            os.environ['DATABRICKS_HOST'] = conn.host
+            os.environ['DATABRICKS_TOKEN'] = conn.password
         else:
             os.environ['MLFLOW_TRACKING_URI'] = conn.host
 
