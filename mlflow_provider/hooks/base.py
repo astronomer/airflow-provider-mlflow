@@ -1,5 +1,4 @@
 import os
-from abc import ABC
 from typing import Any, Callable, Dict, Optional, Union
 
 from airflow.models import Connection

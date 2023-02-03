@@ -47,6 +47,14 @@ class MLflowDeploymentHook(MLflowBaseHook):
 
         return aws_env
 
+    def _env_cleanup(self):
+        target_conn_type = self.get_connection(self.target_conn_id).conn_type
+        if target_conn_type == 'aws':
+            aws_auth_env = self.aws_conn_dict()
+            self.unset_env_variables(other_env=aws_auth_env)
+        else:
+            self.unset_env_variables()
+
     def get_conn(self) -> BaseDeploymentClient:
         """
         Returns MLflow deployment Client.
@@ -81,15 +89,27 @@ class MLflowDeploymentHook(MLflowBaseHook):
             endpoint=endpoint
         )
 
-        target_conn_type = self.get_connection(self.target_conn_id).conn_type
-        if target_conn_type == 'aws':
-            aws_auth_env = self.aws_conn_dict()
-            self.unset_env_variables(other_env=aws_auth_env)
-        else:
-            self.unset_env_variables()
+        self._env_cleanup()
 
         return result
-        
 
+    # TODO should we add ability to store to specified locations - DB, Object storage, etc.?
+    def predict(
+            self,
+            deployment_name: str,
+            inputs: Any,
+            endpoint: str = None
+    ):
+        client = self.get_conn()
+
+        result = client.predict(
+            deployment_name = deployment_name,
+            inputs=inputs,
+            endpoint=endpoint
+        )
+
+        self._env_cleanup()
+
+        return result.to_json()
 
 
