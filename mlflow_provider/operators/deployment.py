@@ -74,12 +74,11 @@ class CreateDeploymentOperator(BaseOperator):
 class PredictOperator(BaseOperator):
     template_fields = [
         'deployment_name',
-        'inputs',
         'endpoint',
         'target_uri',
         'target_conn_id'
     ]
-    template_fields_renderers = {'inputs': 'json'}
+    template_fields_renderers = {}
     template_ext = ()
     ui_color = '#f4a460'
 
