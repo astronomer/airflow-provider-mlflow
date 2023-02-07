@@ -4,7 +4,7 @@ from pendulum import datetime
 
 from airflow.decorators import dag, task
 
-from mlflow_provider.hooks.mlflow_hook import MLflowClientHook
+from mlflow_provider.hooks.client import MLflowClientHook
 from mlflow_provider.operators.registry import (
     CreateRegisteredModelOperator,
     GetRegisteredModelOperator,
@@ -50,7 +50,7 @@ def sample_workflow():
 
     # @task
     # def hook_get_example():
-    #     hook = MLflowClientHook(method="GET")
+    #     hook = MLflowDeploymentHook(method="GET")
     #     response = hook.run(
     #         endpoint='api/2.0/mlflow/experiments/get-by-name',
     #         request_params={'experiment_name': 'census_prediction'}
@@ -60,7 +60,7 @@ def sample_workflow():
     #
     # @task
     # def hook_post_example():
-    #     hook = MLflowClientHook()
+    #     hook = MLflowDeploymentHook()
     #     response = hook.run(
     #         endpoint='api/2.0/mlflow/registered-models/create',
     #         request_params={'name': 'census_prediction1', 'description': 'test',

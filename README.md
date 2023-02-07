@@ -47,10 +47,10 @@ All provider packages must adhere to the following file structure:
 │   ├── __init__.py
 │   ├── example_dags
 │   │   ├── __init__.py
-│   │   └── sample-dag.py
+│   │   └── sample-dag-registry.py
 │   ├── hooks
 │   │   ├── __init__.py
-│   │   └── mlflow_hook.py
+│   │   └── client.py
 │   ├── operators
 │   │   ├── __init__.py
 │   │   └── registry.py
