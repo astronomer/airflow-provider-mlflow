@@ -20,10 +20,20 @@ docs_url: https://github.com/astronomer/airflow-provider-mlflow/blob/main/README
 # value should be "mlflow_provider.hooks.sample_hook.MLflowHook".
 
 hooks:
-  - module: mlflow_provider.hooks.sample_hook.MLflowDeploymentHook
+  - module: mlflow_provider.hooks.client.MLflowClientHook
+  - module: mlflow_provider.hooks.deployment.MLflowDeploymentHook
 
 operators:
-  - module: mlflow_provider.operators.registry.MLflowOperator
+  - module: mlflow_provider.operators.registry.CreateRegisteredModelOperator
+  - module: mlflow_provider.operators.registry.GetRegisteredModelOperator
+  - module: mlflow_provider.operators.registry.DeleteRegisteredModelOperator
+  - module: mlflow_provider.operators.registry.GetLatestModelVersionsOperator
+  - module: mlflow_provider.operators.registry.CreateModelVersionsOperator
+  - module: mlflow_provider.operators.registry.GetModelVersionOperator
+  - module: mlflow_provider.operators.registry.DeleteModelVersionOperator
+  - module: mlflow_provider.operators.registry.TransitionModelVersionStageOperator
+  - module: mlflow_provider.operators.deployment.CreateDeploymentOperator
+  - module: mlflow_provider.operators.deployment.PredictOperator
 
 #sensors:
 #  - module: mlflow_provider.sensors.sample_sensor.SampleSensor
