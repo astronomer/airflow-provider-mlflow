@@ -27,7 +27,6 @@ class CreateDeploymentOperator(BaseOperator):
     :type config: dict
     :param endpoint: Endpoint to create the deployment under. May not be supported by all targets
     :type endpoint: str
-
     """
 
     # Specify the arguments that are allowed to parse with jinja templating
@@ -92,7 +91,7 @@ class CreateDeploymentOperator(BaseOperator):
 
 class PredictOperator(BaseOperator):
     """
-    Get prediction from an MLflow deployment
+    Get predictions from an MLflow deployment
 
     :param deployment_name: Name of deployment to predict against
     :type deployment_name: str
