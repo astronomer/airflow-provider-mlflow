@@ -30,16 +30,16 @@ from mlflow_provider.operators.registry import (
     default_view="graph",
     catchup=False
 )
-def sample_workflow():
+def registry_workflow():
     """
     ### Sample DAG
 
     Showcases the sample provider package's operator and sensor.
 
     To run this example, create an HTTP connection with:
-    - id: conn_sample
+    - id: mlflow_default
     - type: http
-    - host: www.httpbin.org
+    - host: MLflow tracking URI (if MLFlow is hosted on Databricks use your Databricks host)
     """
 
     # task_get_op = MLflowOperator(task_id="get_op", method="get")
@@ -87,11 +87,6 @@ def sample_workflow():
         trigger_rule='all_done'
     )
 
-    # delete_registered_model = DeleteRegisteredModelOperator(
-    #     task_id='delete_registered_model',
-    #     name='census_pred2'
-    # )
-
     get_latest_model_versions = GetLatestModelVersionsOperator(
         task_id='get_latest_model_versions',
         name='census_pred1'
@@ -124,6 +119,11 @@ def sample_workflow():
     #     version='1'
     # )
 
+    # delete_registered_model = DeleteRegisteredModelOperator(
+    #     task_id='delete_registered_model',
+    #     name='census_pred2'
+    # )
+
     chain(
         create_registered_model,
         get_registered_model,
@@ -136,4 +136,4 @@ def sample_workflow():
     )
 
 
-sample_workflow = sample_workflow()
+registry_workflow = registry_workflow()

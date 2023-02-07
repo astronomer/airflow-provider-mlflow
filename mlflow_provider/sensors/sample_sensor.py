@@ -4,7 +4,7 @@ from airflow.exceptions import AirflowException
 from airflow.sensors.base import BaseSensorOperator
 from airflow.utils.decorators import apply_defaults
 
-from mlflow_provider.hooks.mlflow_hook import MLflowHook
+from mlflow_provider.hooks.client import MLflowHook
 
 
 class SampleSensor(BaseSensorOperator):

@@ -10,6 +10,24 @@ from mlflow_provider.hooks.deployment import MLflowDeploymentHook
 
 
 class CreateDeploymentOperator(BaseOperator):
+    """
+    Deploy MLflow models
+
+    :param name: Unique name to use for deployment
+    :type name: str
+    :param model_uri: URI of MLflow model
+    :type model_uri: str
+    :param target_uri: URI of location to deploy the model (ie 'sagemaker')
+    :type target_uri: str
+    :param target_conn_id: Airflow connection id for target system
+    :type target_conn_id: str
+    :param flavor: Model flavor to deploy. If unspecified, a default flavor will be chosen.
+    :type flavor: str
+    :param config: Target-specific configuration for the deployment
+    :type config: dict
+    :param endpoint: Endpoint to create the deployment under. May not be supported by all targets
+    :type endpoint: str
+    """
 
     # Specify the arguments that are allowed to parse with jinja templating
     template_fields = [
@@ -72,6 +90,21 @@ class CreateDeploymentOperator(BaseOperator):
 
 
 class PredictOperator(BaseOperator):
+    """
+    Get predictions from an MLflow deployment
+
+    :param deployment_name: Name of deployment to predict against
+    :type deployment_name: str
+    :param inputs: Input data (or arguments) to pass to the deployment or model endpoint for inference
+    :type inputs: Any
+    :param endpoint: Endpoint to predict against. May not be supported by all targets
+    :type endpoint: str
+    :param target_uri: URI of location to deploy the model (ie 'sagemaker')
+    :type target_uri: str
+    :param target_conn_id: Airflow connection id for target system
+    :type target_conn_id: str
+
+    """
     template_fields = [
         'deployment_name',
         'endpoint',
