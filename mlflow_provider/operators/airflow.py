@@ -45,7 +45,7 @@ class AirflowPredict(BaseOperator):
             *,
             mlflow_conn_id: str = 'mlflow_default',
             model_uri: str,
-            supress_warnings: bool = False,
+            suppress_warnings: bool = False,
             dst_path: Optional[str] = None,
             data: Union[pandas.core.frame.DataFrame, pandas.core.series.Series, numpy.ndarray, csc_matrix, csr_matrix, List[Any], Dict[str, Any]],
             **kwargs: Any
@@ -53,7 +53,7 @@ class AirflowPredict(BaseOperator):
         super().__init__(**kwargs)
         self.mlflow_conn_id = mlflow_conn_id
         self.model_uri = model_uri
-        self.supress_warnings = supress_warnings
+        self.suppress_warnings = suppress_warnings
         self.dst_path = dst_path
         self.data = data
         if kwargs.get('xcom_push') is not None:
@@ -68,7 +68,7 @@ class AirflowPredict(BaseOperator):
 
         loaded_model = pyfunc.load_model(
             model_uri = self.model_uri,
-            supress_warnings = self.supress_warnings,
+            supress_warnings = self.suppress_warnings,
             dst_path = self.dst_path
         )
 
