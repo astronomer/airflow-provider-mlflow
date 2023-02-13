@@ -46,7 +46,7 @@ class AirflowPredict(BaseOperator):
             mlflow_conn_id: str = 'mlflow_default',
             model_uri: str,
             supress_warning: bool = False,
-            dst_path: Optional[str],
+            dst_path: Optional[str] = None,
             data: Union[pandas.core.frame.DataFrame, pandas.core.series.Series, numpy.ndarray, csc_matrix, csr_matrix, List[Any], Dict[str, Any]],
             **kwargs: Any
     ) -> None:
