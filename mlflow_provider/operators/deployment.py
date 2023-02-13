@@ -103,8 +103,8 @@ class PredictOperator(BaseOperator):
     :type target_uri: str
     :param target_conn_id: Airflow connection id for target system
     :type target_conn_id: str
-
     """
+
     template_fields = [
         'deployment_name',
         'endpoint',
