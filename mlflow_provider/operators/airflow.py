@@ -64,7 +64,7 @@ class AirflowPredict(BaseOperator):
 
         pyfunc = MLflowPyfuncHook(
             mlflow_conn_id=self.mlflow_conn_id
-        )
+        ).get_conn()
 
         loaded_model = pyfunc.load_model(
             model_uri = self.model_uri,
