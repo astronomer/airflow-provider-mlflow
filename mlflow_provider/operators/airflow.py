@@ -68,7 +68,7 @@ class AirflowPredict(BaseOperator):
 
         loaded_model = pyfunc.load_model(
             model_uri = self.model_uri,
-            supress_warnings = self.suppress_warnings,
+            suppress_warnings = self.suppress_warnings,
             dst_path = self.dst_path
         )
 
