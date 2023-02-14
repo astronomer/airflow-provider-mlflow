@@ -71,7 +71,16 @@ class AirflowPredict(BaseOperator):
         requirements_file_name = pyfunc.get_model_dependencies(self.model_uri)
         print(requirements_file_name)
 
+        python_version = pyfunc.get_model_dependencies(self.model_uri+'python_env.yaml', 'conda')
+
+        print(python_version)
+
         for line in open(requirements_file_name, 'r'):
+            print(line)
+
+
+
+        for line in open(python_version, 'r'):
             print(line)
 
         # with TemporaryDirectory(prefix="venv") as tmp_dir:
