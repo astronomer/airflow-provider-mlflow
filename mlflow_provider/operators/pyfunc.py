@@ -1,14 +1,16 @@
+from pathlib import Path
+from tempfile import TemporaryDirectory
 from typing import Any, Callable, Dict, Optional, Union, List
 
 import numpy
 import pandas
 from airflow.exceptions import AirflowException
 from airflow.models import BaseOperator
+from airflow.utils import python_virtualenv
 from airflow.utils.decorators import apply_defaults
 from scipy.sparse import csc_matrix, csr_matrix
 
 from mlflow_provider.hooks.pyfunc import MLflowPyfuncHook
-
 
 class AirflowPredict(BaseOperator):
     """
@@ -66,8 +68,23 @@ class AirflowPredict(BaseOperator):
             mlflow_conn_id=self.mlflow_conn_id
         ).get_conn()
 
-        dependencies = pyfunc.get_model_dependencies(self.model_uri)
-        print(dependencies)
+        requirements_file_name = pyfunc.get_model_dependencies(self.model_uri)
+        print(requirements_file_name)
+
+        for line in open(requirements_file_name, 'r'):
+            print(line)
+
+        # with TemporaryDirectory(prefix="venv") as tmp_dir:
+        #     tmp_path = Path(tmp_dir)
+        #
+        #     python_virtualenv.prepare_virtualenv(
+        #         venv_directory=tmp_dir,
+        #         python_bin=f"python{self.python_version}" if self.python_version else None,
+        #         system_site_packages=False,
+        #         requirements_file_path=requirements_file_name,
+        #         pip_install_options=self.pip_install_options,
+        #     )
+        #     python_path = tmp_path / "bin" / "python"
 
         loaded_model = pyfunc.load_model(
             model_uri = self.model_uri,
@@ -75,6 +92,6 @@ class AirflowPredict(BaseOperator):
             dst_path = self.dst_path
         )
 
-        result = loaded_model.predict(data=self.data)
+        # result = loaded_model.predict(data=self.data)
 
-        return result.to_json()
+        # return result.to_json()
