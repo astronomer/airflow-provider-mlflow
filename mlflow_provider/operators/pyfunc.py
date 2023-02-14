@@ -3,7 +3,7 @@ from typing import Any, Callable, Dict, Optional, Union, List
 import numpy
 import pandas
 from airflow.exceptions import AirflowException
-from airflow.models import BaseOperator, _Base
+from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
 from scipy.sparse import csc_matrix, csr_matrix
 
