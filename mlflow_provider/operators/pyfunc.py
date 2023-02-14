@@ -71,7 +71,7 @@ class AirflowPredict(BaseOperator):
         requirements_file_name = pyfunc.get_model_dependencies(self.model_uri)
         print(requirements_file_name)
 
-        python_version = pyfunc.get_model_dependencies(self.model_uri+'python_env.yaml', 'conda')
+        python_version = pyfunc.get_model_dependencies(self.model_uri, 'conda')
 
         print(python_version)
 
