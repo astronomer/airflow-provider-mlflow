@@ -3,7 +3,7 @@ from typing import Any, Callable, Dict, Optional, Union, List
 import numpy
 import pandas
 from airflow.exceptions import AirflowException
-from airflow.models import BaseOperator
+from airflow.models import BaseOperator, _Base
 from airflow.utils.decorators import apply_defaults
 from scipy.sparse import csc_matrix, csr_matrix
 
@@ -65,6 +65,9 @@ class AirflowPredict(BaseOperator):
         pyfunc = MLflowPyfuncHook(
             mlflow_conn_id=self.mlflow_conn_id
         ).get_conn()
+
+        dependencies = pyfunc.get_model_dependencies(self.model_uri)
+        print(dependencies)
 
         loaded_model = pyfunc.load_model(
             model_uri = self.model_uri,
