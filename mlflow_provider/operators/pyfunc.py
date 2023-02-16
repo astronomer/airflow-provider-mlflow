@@ -84,7 +84,7 @@ class AirflowPredict(BaseOperator):
         with open(conda_yaml_path, "r") as yml:
             try:
                 conda_yaml = yaml.safe_load(yml)
-                logging.log(conda_yaml)
+                logging.info(conda_yaml)
             except yaml.YAMLError as exc:
                 raise AirflowException(exc)
 
