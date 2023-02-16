@@ -1,3 +1,5 @@
+import json
+import logging
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import Any, Callable, Dict, Optional, Union, List
@@ -78,17 +80,19 @@ class AirflowPredict(BaseOperator):
         for line in open(requirements_file_name, 'r'):
             print(line)
 
-        # conda_yaml = pyfunc.get_model_dependencies(self.model_uri, 'conda')
-        # with open(conda_yaml, 'r') as yml:
-        #     python_version = yml['dependencies']['python']
+        conda_yaml_path = pyfunc.get_model_dependencies(self.model_uri, 'conda')
+        with open(conda_yaml_path, "r") as yml:
+            try:
+                conda_yaml = yaml.safe_load(yml)
+                logging.log(conda_yaml)
+            except yaml.YAMLError as exc:
+                raise AirflowException(exc)
 
-        python_env = artifacts.load_dict(self.model_uri.rstrip('/')+'/'+'python_env.yaml')
-        python_version = python_env['python']
-        print(python_version)
+        for dependency in conda_yaml['dependencies']:
+            if type(dependency) is str and 'python=' in dependency:
+                python_version = dependency.split('=')[-1]
 
-
-        # for line in open(python_version, 'r'):
-        #     print(line)
+                print(python_version)
 
         with TemporaryDirectory(prefix="venv") as tmp_dir:
             tmp_path = Path(tmp_dir)
