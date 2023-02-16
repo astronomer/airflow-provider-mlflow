@@ -65,6 +65,8 @@ class AirflowPredict(BaseOperator):
 
     def execute(self, context: Dict[str, Any]) -> Any:
 
+        from mlflow import artifacts
+
         pyfunc = MLflowPyfuncHook(
             mlflow_conn_id=self.mlflow_conn_id
         ).get_conn()
@@ -72,15 +74,19 @@ class AirflowPredict(BaseOperator):
         requirements_file_name = pyfunc.get_model_dependencies(self.model_uri)
         print(requirements_file_name)
 
-        conda_yaml = pyfunc.get_model_dependencies(self.model_uri, 'conda')
-        with open(conda_yaml, 'r') as yml:
-            python_version = yml['dependencies']['python']
-
-        print(python_version)
 
         for line in open(requirements_file_name, 'r'):
             print(line)
 
+
+        # conda_yaml = pyfunc.get_model_dependencies(self.model_uri, 'conda')
+        # with open(conda_yaml, 'r') as yml:
+        #     python_version = yml['dependencies']['python']
+
+        python_env = artifacts.load_dict(self.model_uri.rstrip('/')+'/'+'python_env.yaml')
+        python_version = python_env['python']
+        print(python_version)
+)
 
         for line in open(python_version, 'r'):
             print(line)
