@@ -78,7 +78,6 @@ class AirflowPredict(BaseOperator):
         for line in open(requirements_file_name, 'r'):
             print(line)
 
-
         # conda_yaml = pyfunc.get_model_dependencies(self.model_uri, 'conda')
         # with open(conda_yaml, 'r') as yml:
         #     python_version = yml['dependencies']['python']
@@ -86,10 +85,10 @@ class AirflowPredict(BaseOperator):
         python_env = artifacts.load_dict(self.model_uri.rstrip('/')+'/'+'python_env.yaml')
         python_version = python_env['python']
         print(python_version)
-)
 
-        for line in open(python_version, 'r'):
-            print(line)
+
+        # for line in open(python_version, 'r'):
+        #     print(line)
 
         with TemporaryDirectory(prefix="venv") as tmp_dir:
             tmp_path = Path(tmp_dir)
