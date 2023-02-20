@@ -1,5 +1,6 @@
 import json
 import logging
+from abc import ABC
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import Any, Callable, Dict, Optional, Union, List
@@ -17,7 +18,7 @@ import yaml
 from mlflow_provider.hooks.pyfunc import MLflowPyfuncHook
 
 
-class AirflowPredict(_BasePythonVirtualenvOperator):
+class AirflowPredict(_BasePythonVirtualenvOperator, ABC):
     """
     Deploy MLflow models
 
