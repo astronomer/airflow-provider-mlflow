@@ -47,6 +47,22 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
     template_ext = ()
     ui_color = '#f4a460'
 
+    def _model_load_and_predict(self):
+
+        pyfunc = MLflowPyfuncHook(
+            mlflow_conn_id=self.mlflow_conn_id
+        ).get_conn()
+
+        loaded_model = pyfunc.load_model(
+            model_uri=self.model_uri,
+            suppress_warnings=self.suppress_warnings,
+            dst_path=self.dst_path
+        )
+
+        result = loaded_model.predict(data=self.data)
+        return result.to_json()
+
+
     @apply_defaults
     def __init__(
             self,
@@ -66,6 +82,7 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
         self.suppress_warnings = suppress_warnings
         self.dst_path = dst_path
         self.data = data
+        self.python_callable=self._model_load_and_predict
         if kwargs.get('xcom_push') is not None:
             raise AirflowException(
                 "'xcom_push' was deprecated, use 'BaseOperator.do_xcom_push' instead")
@@ -84,16 +101,6 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
         for line in open(requirements_file_name, 'r'):
             print(line)
 
-
-        def model_load_and_predict():
-            loaded_model = pyfunc.load_model(
-                model_uri=self.model_uri,
-                suppress_warnings=self.suppress_warnings,
-                dst_path=self.dst_path
-            )
-
-            result = loaded_model.predict(data=self.data)
-            return result.to_json()
 
         self.python_callable=model_load_and_predict
         # conda_yaml_path = pyfunc.get_model_dependencies(self.model_uri, 'conda')
