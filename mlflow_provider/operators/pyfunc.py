@@ -60,7 +60,7 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
     ) -> None:
         super().__init__(**kwargs)
         self.requirements = None
-        self.system_site_packages = None
+        self.system_site_packages = False
         self.mlflow_conn_id = mlflow_conn_id
         self.model_uri = model_uri
         self.suppress_warnings = suppress_warnings
@@ -116,7 +116,7 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
             python_virtualenv.prepare_virtualenv(
                 venv_directory=tmp_dir,
                 python_bin=None,
-                system_site_packages=False,
+                system_site_packages=self.system_site_packages,
                 requirements_file_path=requirements_file_name
             )
             python_path = tmp_path / "bin" / "python"
