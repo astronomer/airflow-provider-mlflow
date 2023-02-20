@@ -105,11 +105,11 @@ class AirflowPredict(BaseOperator):
             )
             python_path = tmp_path / "bin" / "python"
 
-        loaded_model = pyfunc.load_model(
-            model_uri = self.model_uri,
-            suppress_warnings = self.suppress_warnings,
-            dst_path = self.dst_path
-        )
+            loaded_model = pyfunc.load_model(
+                model_uri = self.model_uri,
+                suppress_warnings = self.suppress_warnings,
+                dst_path = self.dst_path
+            )
 
-        # result = loaded_model.predict(data=self.data)
-        # return result.to_json()
+            result = loaded_model.predict(data=self.data)
+            return result.to_json()
