@@ -9,13 +9,15 @@ import pandas
 from airflow.exceptions import AirflowException
 from airflow.models import BaseOperator
 from airflow.utils import python_virtualenv
+from airflow.operators.python import _BasePythonVirtualenvOperator
 from airflow.utils.decorators import apply_defaults
 from scipy.sparse import csc_matrix, csr_matrix
 
 import yaml
 from mlflow_provider.hooks.pyfunc import MLflowPyfuncHook
 
-class AirflowPredict(BaseOperator):
+
+class AirflowPredict(_BasePythonVirtualenvOperator):
     """
     Deploy MLflow models
 
@@ -76,10 +78,21 @@ class AirflowPredict(BaseOperator):
         requirements_file_name = pyfunc.get_model_dependencies(self.model_uri)
         print(requirements_file_name)
 
-
         for line in open(requirements_file_name, 'r'):
             print(line)
 
+
+        def model_load_and_predict():
+            loaded_model = pyfunc.load_model(
+                model_uri=self.model_uri,
+                suppress_warnings=self.suppress_warnings,
+                dst_path=self.dst_path
+            )
+
+            result = loaded_model.predict(data=self.data)
+            return result.to_json()
+
+        self.python_callable=model_load_and_predict
         # conda_yaml_path = pyfunc.get_model_dependencies(self.model_uri, 'conda')
         # with open(conda_yaml_path, "r") as yml:
         #     try:
@@ -105,11 +118,5 @@ class AirflowPredict(BaseOperator):
             )
             python_path = tmp_path / "bin" / "python"
 
-            loaded_model = pyfunc.load_model(
-                model_uri = self.model_uri,
-                suppress_warnings = self.suppress_warnings,
-                dst_path = self.dst_path
-            )
 
-            result = loaded_model.predict(data=self.data)
-            return result.to_json()
+            return self._execute_python_callable_in_subprocess(python_path, tmp_path)
