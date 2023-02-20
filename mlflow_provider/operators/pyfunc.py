@@ -18,7 +18,7 @@ import yaml
 from mlflow_provider.hooks.pyfunc import MLflowPyfuncHook
 
 
-class AirflowPredict(_BasePythonVirtualenvOperator, ABC):
+class AirflowPredict(_BasePythonVirtualenvOperator):
     """
     Deploy MLflow models
 
@@ -59,6 +59,8 @@ class AirflowPredict(_BasePythonVirtualenvOperator, ABC):
             **kwargs: Any
     ) -> None:
         super().__init__(**kwargs)
+        self.requirements = None
+        self.system_site_packages = None
         self.mlflow_conn_id = mlflow_conn_id
         self.model_uri = model_uri
         self.suppress_warnings = suppress_warnings
@@ -121,3 +123,11 @@ class AirflowPredict(_BasePythonVirtualenvOperator, ABC):
 
 
             return self._execute_python_callable_in_subprocess(python_path, tmp_path)
+
+    def _iter_serializable_context_keys(self):
+        yield from self.BASE_SERIALIZABLE_CONTEXT_KEYS
+        if self.system_site_packages or "apache-airflow" in self.requirements:
+            yield from self.AIRFLOW_SERIALIZABLE_CONTEXT_KEYS
+            yield from self.PENDULUM_SERIALIZABLE_CONTEXT_KEYS
+        elif "pendulum" in self.requirements:
+            yield from self.PENDULUM_SERIALIZABLE_CONTEXT_KEYS
