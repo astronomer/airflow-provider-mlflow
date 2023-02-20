@@ -72,10 +72,10 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
             suppress_warnings: bool = False,
             dst_path: Optional[str] = None,
             data: Union[pandas.core.frame. DataFrame, pandas.core.series.Series, numpy.ndarray, csc_matrix, csr_matrix, List[Any], Dict[str, Any]],
-            python_callable: Optional[Callable] = _model_load_and_predict,
+            # python_callable: Optional[Callable] = _model_load_and_predict,
             **kwargs: Any
     ) -> None:
-        super().__init__(**kwargs)
+        super().__init__(python_callable = self._model_load_and_predict, **kwargs)
         self.requirements = None
         self.system_site_packages = False
         self.mlflow_conn_id = mlflow_conn_id
@@ -83,7 +83,6 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
         self.suppress_warnings = suppress_warnings
         self.dst_path = dst_path
         self.data = data
-        python_callable = python_callable
         if kwargs.get('xcom_push') is not None:
             raise AirflowException(
                 "'xcom_push' was deprecated, use 'BaseOperator.do_xcom_push' instead")
