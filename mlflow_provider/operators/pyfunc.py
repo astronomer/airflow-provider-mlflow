@@ -99,7 +99,7 @@ class AirflowPredict(BaseOperator):
 
             python_virtualenv.prepare_virtualenv(
                 venv_directory=tmp_dir,
-                python_bin=f"python{python_version}" if python_version else None,
+                python_bin=None,
                 system_site_packages=False,
                 requirements_file_path=requirements_file_name
             )
