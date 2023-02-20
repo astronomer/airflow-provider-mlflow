@@ -47,18 +47,6 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
     template_ext = ()
     ui_color = '#f4a460'
 
-    def _model_load_and_predict(self, pyfunc_hook):
-
-        loaded_model = pyfunc_hook.load_model(
-            model_uri=self.model_uri,
-            suppress_warnings=self.suppress_warnings,
-            dst_path=self.dst_path
-        )
-
-        result = loaded_model.predict(data=self.data)
-        return result.to_json()
-
-
     @apply_defaults
     def __init__(
             self,
@@ -71,10 +59,21 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
             # python_callable: Optional[Callable] = _model_load_and_predict,
             **kwargs: Any
     ) -> None:
+        def _model_load_and_predict(pyfunc_hook) -> json:
+
+            # pyfunc_hook = MLflowPyfuncHook(mlflow_conn_id=self.mlflow_conn_id).get_conn()
+
+            loaded_model = pyfunc_hook.load_model(
+                model_uri=model_uri,
+                suppress_warnings=suppress_warnings,
+                dst_path=dst_path
+            )
+
+            result = loaded_model.predict(data=data)
+            return result.to_json()
+
         super().__init__(
-            python_callable=self._model_load_and_predict(
-                MLflowPyfuncHook(mlflow_conn_id=self.mlflow_conn_id).get_conn()
-            ),
+            python_callable=_model_load_and_predict(MLflowPyfuncHook(mlflow_conn_id=mlflow_conn_id).get_conn()),
             use_dill=False,
             op_args=None,
             op_kwargs=None,
