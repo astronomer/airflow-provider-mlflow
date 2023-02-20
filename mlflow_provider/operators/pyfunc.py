@@ -80,19 +80,19 @@ class AirflowPredict(BaseOperator):
         for line in open(requirements_file_name, 'r'):
             print(line)
 
-        conda_yaml_path = pyfunc.get_model_dependencies(self.model_uri, 'conda')
-        with open(conda_yaml_path, "r") as yml:
-            try:
-                conda_yaml = yaml.safe_load(yml)
-                logging.info(conda_yaml)
-            except yaml.YAMLError as exc:
-                raise AirflowException(exc)
-
-        for dependency in conda_yaml['dependencies']:
-            if type(dependency) is str and 'python=' in dependency:
-                python_version = dependency.split('=')[-1]
-
-                print(python_version)
+        # conda_yaml_path = pyfunc.get_model_dependencies(self.model_uri, 'conda')
+        # with open(conda_yaml_path, "r") as yml:
+        #     try:
+        #         conda_yaml = yaml.safe_load(yml)
+        #         logging.info(conda_yaml)
+        #     except yaml.YAMLError as exc:
+        #         raise AirflowException(exc)
+        #
+        # for dependency in conda_yaml['dependencies']:
+        #     if type(dependency) is str and 'python=' in dependency:
+        #         python_version = dependency.split('=')[-1]
+        #
+        #         print(python_version)
 
         with TemporaryDirectory(prefix="venv") as tmp_dir:
             tmp_path = Path(tmp_dir)
