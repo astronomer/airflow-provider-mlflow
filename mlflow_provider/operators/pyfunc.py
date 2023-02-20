@@ -72,6 +72,7 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
             suppress_warnings: bool = False,
             dst_path: Optional[str] = None,
             data: Union[pandas.core.frame.DataFrame, pandas.core.series.Series, numpy.ndarray, csc_matrix, csr_matrix, List[Any], Dict[str, Any]],
+            python_callable=_model_load_and_predict,
             **kwargs: Any
     ) -> None:
         super().__init__(**kwargs)
@@ -82,7 +83,7 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
         self.suppress_warnings = suppress_warnings
         self.dst_path = dst_path
         self.data = data
-        self.python_callable=self._model_load_and_predict
+        self.python_callable=python_callable
         if kwargs.get('xcom_push') is not None:
             raise AirflowException(
                 "'xcom_push' was deprecated, use 'BaseOperator.do_xcom_push' instead")
@@ -102,7 +103,6 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
             print(line)
 
 
-        self.python_callable=model_load_and_predict
         # conda_yaml_path = pyfunc.get_model_dependencies(self.model_uri, 'conda')
         # with open(conda_yaml_path, "r") as yml:
         #     try:
