@@ -1,3 +1,10 @@
+"""
+Example prediction task in Airflow with MLflow
+
+The model used for prediction was created with this example:
+https://github.com/mlflow/mlflow/blob/master/examples/lightgbm/lightgbm_native/train.py
+"""
+
 import numpy as np
 from airflow.decorators import dag
 from pendulum import datetime
@@ -48,6 +55,7 @@ test_sample = np.array([
     tags=["example"],
     default_view="graph",
     catchup=False,
+    doc_md=__doc__
 )
 def airflow_predict():
     """
