@@ -27,7 +27,7 @@ def _model_load_and_predict(
         suppress_warnings,
         dst_path,
         data
-) -> json:
+):
 
     # pyfunc_hook = MLflowPyfuncHook(mlflow_conn_id=self.mlflow_conn_id).get_conn()
     import os
@@ -168,7 +168,6 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
                 requirements_file_path=requirements_file_name
             )
             python_path = tmp_path / "bin" / "python"
-
 
             return self._execute_python_callable_in_subprocess(python_path, tmp_path)
 
