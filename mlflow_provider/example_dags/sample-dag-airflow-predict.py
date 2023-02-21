@@ -1,5 +1,5 @@
 """
-Example prediction task in Airflow with MLflow
+Example prediction task in Airflow with MLflow.
 
 The model used for prediction was created with this example:
 https://github.com/mlflow/mlflow/blob/master/examples/lightgbm/lightgbm_native/train.py
