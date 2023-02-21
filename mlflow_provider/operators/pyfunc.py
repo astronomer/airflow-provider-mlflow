@@ -32,6 +32,7 @@ def _model_load_and_predict(
     # pyfunc_hook = MLflowPyfuncHook(mlflow_conn_id=self.mlflow_conn_id).get_conn()
     import os
     from mlflow import pyfunc
+    from numpy import ndarray
 
 
     if 'cloud.databricks.com' in host:
@@ -55,7 +56,7 @@ def _model_load_and_predict(
     )
 
     result = loaded_model.predict(data=data)
-    if type(result) is numpy.ndarray:
+    if type(result) is ndarray:
         return result.tolist()
     else:
         return result.to_json()
