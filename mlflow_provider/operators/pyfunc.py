@@ -1,21 +1,17 @@
-import json
-import logging
-from abc import ABC
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Any, Callable, Dict, Optional, Union, List
+from typing import Any, Dict, Optional, Union, List
 
-import numpy
-import pandas
+from numpy import ndarray
+from pandas.core.frame import DataFrame
+from pandas.core.series import Series
 from airflow.exceptions import AirflowException
-from airflow.models import BaseOperator
-from airflow.utils import python_virtualenv
-from airflow.operators.python import _BasePythonVirtualenvOperator, PythonVirtualenvOperator
 from airflow.hooks.base import BaseHook
+from airflow.operators.python import _BasePythonVirtualenvOperator
+from airflow.utils import python_virtualenv
 from airflow.utils.decorators import apply_defaults
 from scipy.sparse import csc_matrix, csr_matrix
 
-import yaml
 from mlflow_provider.hooks.pyfunc import MLflowPyfuncHook
 
 
@@ -28,13 +24,31 @@ def _model_load_and_predict(
         dst_path,
         data
 ):
+    """
+    Python Callable passed to _BasePythonVirtualenvOperator
+    :param host: MLflow host
+    :type host: str
+    :param login: MLflow login (for API keys use 'token')
+    :type login: str
+    :param password: MLflow password (if using an API Key use that)
+    :type password: str
+    :param model_uri: MLflow model URI
+    :type model_uri: str
+    :param suppress_warnings:
+    :type suppress_warnings: bool
+    :param dst_path: The local filesystem path to which to download the model artifact. This directory must already exist. If unspecified, a local output path will be created.
+    :type dst_path: Optional[str]
+    :param data: Model input
+    :type data: Union[pandas.DataFrame, numpy.ndarray, scipy.sparse.(csc.csc_matrix | csr.csr_matrix), List[Any], or Dict[str, numpy.ndarray].
+    :return: Predictions/Inference results
+    """
 
-    # pyfunc_hook = MLflowPyfuncHook(mlflow_conn_id=self.mlflow_conn_id).get_conn()
     import os
     from mlflow import pyfunc
     from numpy import ndarray
 
 
+    # Setup env variables for authentication
     if 'cloud.databricks.com' in host:
         os.environ['MLFLOW_TRACKING_URI'] = 'databricks'
         os.environ['DATABRICKS_HOST'] = host
@@ -49,12 +63,14 @@ def _model_load_and_predict(
         os.environ['MLFLOW_TRACKING_PASSWORD'] = password
 
 
+    # Load Model
     loaded_model = pyfunc.load_model(
         model_uri=model_uri,
         suppress_warnings=suppress_warnings,
         dst_path=dst_path
     )
 
+    # Run Inference and convert restults to list of json depending on result type
     result = loaded_model.predict(data=data)
     if type(result) is ndarray:
         return result.tolist()
@@ -99,7 +115,7 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
             model_uri: str,
             suppress_warnings: bool = False,
             dst_path: Optional[str] = None,
-            data: Union[pandas.core.frame. DataFrame, pandas.core.series.Series, numpy.ndarray, csc_matrix, csr_matrix, List[Any], Dict[str, Any]],
+            data: Union[DataFrame, Series, ndarray, csc_matrix, csr_matrix, List[Any], Dict[str, Any]],
             # python_callable: Optional[Callable] = _model_load_and_predict,
             **kwargs: Any
     ) -> None:
@@ -133,15 +149,13 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
             expect_airflow=False,
             **kwargs)
 
-
     def execute(self, context: Dict[str, Any]) -> Any:
-
-        from mlflow import artifacts
 
         pyfunc = MLflowPyfuncHook(
             mlflow_conn_id=self.mlflow_conn_id
         ).get_conn()
 
+        # Requirements file from MLflow model artifacts
         requirements_file_name = pyfunc.get_model_dependencies(self.model_uri)
         print(requirements_file_name)
 
@@ -149,20 +163,7 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
             print(line)
 
 
-        # conda_yaml_path = pyfunc.get_model_dependencies(self.model_uri, 'conda')
-        # with open(conda_yaml_path, "r") as yml:
-        #     try:
-        #         conda_yaml = yaml.safe_load(yml)
-        #         logging.info(conda_yaml)
-        #     except yaml.YAMLError as exc:
-        #         raise AirflowException(exc)
-        #
-        # for dependency in conda_yaml['dependencies']:
-        #     if type(dependency) is str and 'python=' in dependency:
-        #         python_version = dependency.split('=')[-1]
-        #
-        #         print(python_version)
-
+        # Create virtualenv and run python callable
         with TemporaryDirectory(prefix="venv") as tmp_dir:
             tmp_path = Path(tmp_dir)
 

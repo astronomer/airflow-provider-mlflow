@@ -1,13 +1,6 @@
-from typing import Any, Callable, Dict, Optional, Union
-
-import requests
-import tenacity
-from airflow.models import Connection
-
-from airflow.exceptions import AirflowException
-from mlflow_provider.hooks.base import MLflowBaseHook
 from mlflow import pyfunc
 
+from mlflow_provider.hooks.base import MLflowBaseHook
 
 
 class MLflowPyfuncHook(MLflowBaseHook):

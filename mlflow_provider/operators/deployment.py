@@ -1,7 +1,5 @@
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Dict, Optional
 
-import numpy
-import pandas
 from airflow.exceptions import AirflowException
 from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
