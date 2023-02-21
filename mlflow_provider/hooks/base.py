@@ -1,11 +1,8 @@
-import os
-from typing import Any, Callable, Dict, Optional, Union
-
-from airflow.models import Connection
-
-from airflow.exceptions import AirflowException
-from airflow.hooks.base import BaseHook
 import logging
+import os
+from typing import Dict, Optional
+
+from airflow.hooks.base import BaseHook
 
 
 class MLflowBaseHook(BaseHook):

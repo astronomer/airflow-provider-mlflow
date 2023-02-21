@@ -1,7 +1,5 @@
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Dict, Optional
 
-import numpy
-import pandas
 from airflow.exceptions import AirflowException
 from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
@@ -103,8 +101,8 @@ class PredictOperator(BaseOperator):
     :type target_uri: str
     :param target_conn_id: Airflow connection id for target system
     :type target_conn_id: str
-
     """
+
     template_fields = [
         'deployment_name',
         'endpoint',

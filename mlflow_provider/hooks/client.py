@@ -1,11 +1,8 @@
-from typing import Any, Callable, Dict, Optional, Union
+from typing import Any, Dict, Optional
 
 import requests
-import tenacity
-from requests.auth import HTTPBasicAuth
-
-from airflow.exceptions import AirflowException
 from airflow.hooks.base import BaseHook
+from requests.auth import HTTPBasicAuth
 
 
 class MLflowClientHook(BaseHook):

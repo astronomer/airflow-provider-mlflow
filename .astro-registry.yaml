@@ -7,7 +7,6 @@ package-name: mlflow_provider
 # The name of the provider to be displayed on the Registry.
 display-name: MLflow Provider
 # A description to be displayed on the main Provider page.
-# TODO Update description
 description: An Mlflow provider for Apache Airflow for Machine Learning Ops.
 # URL for where user should find the documentation for the Provider. This could be a link to the README,
 # an external docs site, etc.
@@ -22,6 +21,7 @@ docs_url: https://github.com/astronomer/airflow-provider-mlflow/blob/main/README
 hooks:
   - module: mlflow_provider.hooks.client.MLflowClientHook
   - module: mlflow_provider.hooks.deployment.MLflowDeploymentHook
+  - module: mlflow_provider.hooks.pyfunc.MLflowPyfuncHook
 
 operators:
   - module: mlflow_provider.operators.registry.CreateRegisteredModelOperator
@@ -34,6 +34,7 @@ operators:
   - module: mlflow_provider.operators.registry.TransitionModelVersionStageOperator
   - module: mlflow_provider.operators.deployment.CreateDeploymentOperator
   - module: mlflow_provider.operators.deployment.PredictOperator
+  - module: mlflow_provider.operators.pyfunc.AirflowOperator
 
 #sensors:
 #  - module: mlflow_provider.sensors.sample_sensor.SampleSensor
