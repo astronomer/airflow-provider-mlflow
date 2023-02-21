@@ -18,20 +18,6 @@ import yaml
 from mlflow_provider.hooks.pyfunc import MLflowPyfuncHook
 
 
-def _model_load_and_predict(pyfunc_hook, model_uri, suppress_warnings, dst_path, data) -> json:
-
-    # pyfunc_hook = MLflowPyfuncHook(mlflow_conn_id=self.mlflow_conn_id).get_conn()
-
-    loaded_model = pyfunc_hook.load_model(
-        model_uri=model_uri,
-        suppress_warnings=suppress_warnings,
-        dst_path=dst_path
-    )
-
-    result = loaded_model.predict(data=data)
-    return result.to_json()
-
-
 class AirflowPredict(_BasePythonVirtualenvOperator):
     """
     Deploy MLflow models
@@ -74,7 +60,7 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
             **kwargs: Any
     ) -> None:
         self.requirements = None
-        self.system_site_packages = False
+        self.system_site_packages = True
         self.mlflow_conn_id = mlflow_conn_id
         self.model_uri = model_uri
         self.suppress_warnings = suppress_warnings
@@ -84,13 +70,13 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
             raise AirflowException(
                 "'xcom_push' was deprecated, use 'BaseOperator.do_xcom_push' instead")
         super().__init__(
-            python_callable=_model_load_and_predict(
-                pyfunc_hook=MLflowPyfuncHook(mlflow_conn_id=self.mlflow_conn_id).get_conn(),
-                model_uri=self.model_uri,
-                suppress_warnings=self.suppress_warnings,
-                dst_path=self.dst_path,
-                data=self.data
-            ),
+            # python_callable=_model_load_and_predict(
+            #     pyfunc_hook=MLflowPyfuncHook(mlflow_conn_id=self.mlflow_conn_id).get_conn(),
+            #     model_uri=self.model_uri,
+            #     suppress_warnings=self.suppress_warnings,
+            #     dst_path=self.dst_path,
+            #     data=self.data
+            # ),
             use_dill=False,
             op_args=None,
             op_kwargs=None,
@@ -141,6 +127,17 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
             )
             python_path = tmp_path / "bin" / "python"
 
+            def _model_load_and_predict(pyfunc_hook, model_uri, suppress_warnings, dst_path, data) -> json:
+                # pyfunc_hook = MLflowPyfuncHook(mlflow_conn_id=self.mlflow_conn_id).get_conn()
+
+                loaded_model = pyfunc_hook.load_model(
+                    model_uri=model_uri,
+                    suppress_warnings=suppress_warnings,
+                    dst_path=dst_path
+                )
+
+                result = loaded_model.predict(data=data)
+                return result.to_json()
 
             return self._execute_python_callable_in_subprocess(python_path, tmp_path)
 
