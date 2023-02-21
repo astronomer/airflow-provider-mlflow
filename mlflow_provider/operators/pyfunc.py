@@ -11,6 +11,7 @@ from airflow.exceptions import AirflowException
 from airflow.models import BaseOperator
 from airflow.utils import python_virtualenv
 from airflow.operators.python import _BasePythonVirtualenvOperator, PythonVirtualenvOperator
+from airflow.hooks.base import BaseHook
 from airflow.utils.decorators import apply_defaults
 from scipy.sparse import csc_matrix, csr_matrix
 
@@ -18,11 +19,35 @@ import yaml
 from mlflow_provider.hooks.pyfunc import MLflowPyfuncHook
 
 
-def _model_load_and_predict(pyfunc_hook, model_uri, suppress_warnings, dst_path, data) -> json:
+def _model_load_and_predict(
+        host,
+        login,
+        password,
+        model_uri,
+        suppress_warnings,
+        dst_path,
+        data
+) -> json:
 
     # pyfunc_hook = MLflowPyfuncHook(mlflow_conn_id=self.mlflow_conn_id).get_conn()
+    import os
+    from mlflow import pyfunc
 
-    loaded_model = pyfunc_hook.load_model(
+    if 'cloud.databricks.com' in host:
+        os.environ['MLFLOW_TRACKING_URI'] = 'databricks'
+        os.environ['DATABRICKS_HOST'] = host
+        os.environ['DATABRICKS_TOKEN'] = password
+    else:
+        os.environ['MLFLOW_TRACKING_URI'] = host
+
+    if login == 'token':
+        os.environ['MLFLOW_TRACKING_TOKEN'] = host
+    else:
+        os.environ['MLFLOW_TRACKING_USERNAME'] = login
+        os.environ['MLFLOW_TRACKING_PASSWORD'] = password
+
+
+    loaded_model = pyfunc.load_model(
         model_uri=model_uri,
         suppress_warnings=suppress_warnings,
         dst_path=dst_path
@@ -80,6 +105,7 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
         self.suppress_warnings = suppress_warnings
         self.dst_path = dst_path
         self.data = data
+        self.conn = BaseHook.get_connection(self.mlflow_conn_id)
         if kwargs.get('xcom_push') is not None:
             raise AirflowException(
                 "'xcom_push' was deprecated, use 'BaseOperator.do_xcom_push' instead")
@@ -88,12 +114,14 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
             use_dill=False,
             op_args=None,
             op_kwargs={
-                'pyfunc_hook':MLflowPyfuncHook(mlflow_conn_id=self.mlflow_conn_id).get_conn(),
+                'host':self.conn.host,
+                'login':self.conn.login,
+                'password':self.conn.password,
                 'model_uri':self.model_uri,
                 'suppress_warnings':self.suppress_warnings,
                 'dst_path':self.dst_path,
                 'data':self.data
-        },
+            },
             string_args=None,
             templates_dict=None,
             templates_exts=None,
