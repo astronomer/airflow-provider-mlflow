@@ -33,6 +33,7 @@ def _model_load_and_predict(
     import os
     from mlflow import pyfunc
 
+
     if 'cloud.databricks.com' in host:
         os.environ['MLFLOW_TRACKING_URI'] = 'databricks'
         os.environ['DATABRICKS_HOST'] = host
@@ -54,7 +55,10 @@ def _model_load_and_predict(
     )
 
     result = loaded_model.predict(data=data)
-    return result.to_json()
+    if type(result) is numpy.ndarray:
+        return result.tolist()
+    else:
+        return result.to_json()
 
 
 class AirflowPredict(_BasePythonVirtualenvOperator):
