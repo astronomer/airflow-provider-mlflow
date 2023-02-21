@@ -21,7 +21,7 @@ docs_url: https://github.com/astronomer/airflow-provider-mlflow/blob/main/README
 hooks:
   - module: mlflow_provider.hooks.client.MLflowClientHook
   - module: mlflow_provider.hooks.deployment.MLflowDeploymentHook
-  - module: mlflow_provider.hooks.deployment.MLflowPyfuncHook
+  - module: mlflow_provider.hooks.pyfunc.MLflowPyfuncHook
 
 operators:
   - module: mlflow_provider.operators.registry.CreateRegisteredModelOperator
