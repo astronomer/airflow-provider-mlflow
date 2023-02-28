@@ -101,7 +101,8 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
     # Specify the arguments that are allowed to parse with jinja templating
     template_fields = [
         'model_uri',
-        'dst_path'
+        'dst_path',
+        'data'
     ]
     template_fields_renderers = {}
     template_ext = ()
