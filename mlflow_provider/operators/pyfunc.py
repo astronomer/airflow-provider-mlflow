@@ -102,7 +102,6 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
     template_fields = [
         'model_uri',
         'dst_path',
-        'data'
     ]
     template_fields_renderers = {}
     template_ext = ()
