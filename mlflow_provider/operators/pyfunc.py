@@ -77,7 +77,7 @@ def _model_load_and_predict(
 
     # Run Inference and convert results to list of json depending on result type
     if data is None:
-        result = loaded_model.predict(data=nparray(literal_eval(data_string)))
+        result = loaded_model.predict(data=nparray(literal_eval(''.join(data_string.splitlines()))))
     else:
         result = loaded_model.predict(data=data)
 
