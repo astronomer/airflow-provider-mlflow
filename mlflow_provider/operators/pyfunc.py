@@ -1,6 +1,6 @@
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Any, Dict, Optional, Union, List
+from typing import Any, Dict, Optional, Union, List, Sequence
 
 from numpy import ndarray
 from pandas.core.frame import DataFrame
@@ -77,6 +77,7 @@ def _model_load_and_predict(
     # Run Inference and convert results to list of json depending on result type
     if data is None:
         print(data_string)
+        print(type(data_string))
         result = loaded_model.predict(data=nparray(literal_eval(data_string)))
     else:
         result = loaded_model.predict(data=data)
@@ -108,11 +109,11 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
     """
 
     # Specify the arguments that are allowed to parse with jinja templating
-    template_fields = [
+    template_fields: Sequence[str] = (
         'model_uri',
         'dst_path',
         'data_string'
-    ]
+    )
     template_fields_renderers = {}
     template_ext = ()
     ui_color = '#f4a460'
@@ -125,7 +126,7 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
             model_uri: str,
             suppress_warnings: bool = False,
             dst_path: Optional[str] = None,
-            data: Union[DataFrame, Series, ndarray, csc_matrix, csr_matrix, List[Any], Dict[str, Any]]=None,
+            data: Optional[Union[DataFrame, Series, ndarray, csc_matrix, csr_matrix, List[Any], Dict[str, Any]]]=None,
             data_string: Optional[str] = None,
             # python_callable: Optional[Callable] = _model_load_and_predict,
             **kwargs: Any
