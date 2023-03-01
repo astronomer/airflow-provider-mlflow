@@ -2,6 +2,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import Any, Dict, Optional, Union, List
 
+import numpy as np
 from numpy import ndarray
 from pandas.core.frame import DataFrame
 from pandas.core.series import Series
@@ -22,7 +23,8 @@ def _model_load_and_predict(
         model_uri,
         suppress_warnings,
         dst_path,
-        data
+        data,
+        data_string
 ):
     """
     Python Callable passed to _BasePythonVirtualenvOperator
@@ -40,6 +42,8 @@ def _model_load_and_predict(
     :type dst_path: Optional[str]
     :param data: Model input
     :type data: Union[pandas.DataFrame, numpy.ndarray, scipy.sparse.(csc.csc_matrix | csr.csr_matrix), List[Any], or Dict[str, numpy.ndarray].
+    :param data_string: Model input as a string representation of list
+    :type data: str
     :return: Predictions/Inference results
     """
 
@@ -70,8 +74,12 @@ def _model_load_and_predict(
         dst_path=dst_path
     )
 
-    # Run Inference and convert restults to list of json depending on result type
-    result = loaded_model.predict(data=data)
+    # Run Inference and convert results to list of json depending on result type
+    if data is None:
+        result = loaded_model.predict(data=np.fromstring(data_string))
+    else:
+        result = loaded_model.predict(data=data)
+
     if type(result) is ndarray:
         return result.tolist()
     else:
@@ -102,6 +110,7 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
     template_fields = [
         'model_uri',
         'dst_path',
+        'data_string'
     ]
     template_fields_renderers = {}
     template_ext = ()
@@ -115,7 +124,8 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
             model_uri: str,
             suppress_warnings: bool = False,
             dst_path: Optional[str] = None,
-            data: Union[DataFrame, Series, ndarray, csc_matrix, csr_matrix, List[Any], Dict[str, Any]],
+            data: Union[DataFrame, Series, ndarray, csc_matrix, csr_matrix, List[Any], Dict[str, Any]]=None,
+            data_string: Optional[str] = None,
             # python_callable: Optional[Callable] = _model_load_and_predict,
             **kwargs: Any
     ) -> None:
@@ -126,6 +136,7 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
         self.suppress_warnings = suppress_warnings
         self.dst_path = dst_path
         self.data = data
+        self.data_string = data_string
         self.conn = BaseHook.get_connection(self.mlflow_conn_id)
         if kwargs.get('xcom_push') is not None:
             raise AirflowException(
