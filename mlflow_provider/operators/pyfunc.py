@@ -1,9 +1,7 @@
-import logging
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import Any, Dict, Optional, Union, List
 
-import numpy as np
 from numpy import ndarray
 from pandas.core.frame import DataFrame
 from pandas.core.series import Series
@@ -53,6 +51,7 @@ def _model_load_and_predict(
     from numpy import ndarray
     from numpy import array as nparray
     from ast import literal_eval
+    import logging
 
     # Setup env variables for authentication
     if 'cloud.databricks.com' in host:
