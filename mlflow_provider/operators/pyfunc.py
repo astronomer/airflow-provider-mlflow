@@ -49,8 +49,9 @@ def _model_load_and_predict(
 
     import os
     from mlflow import pyfunc
-    from numpy import ndarray, fromstring
-
+    from numpy import ndarray
+    from numpy import array as nparray
+    from ast import literal_eval
 
     # Setup env variables for authentication
     if 'cloud.databricks.com' in host:
@@ -76,7 +77,7 @@ def _model_load_and_predict(
 
     # Run Inference and convert results to list of json depending on result type
     if data is None:
-        result = loaded_model.predict(data=fromstring(data_string))
+        result = loaded_model.predict(data=nparray(literal_eval(data_string)))
     else:
         result = loaded_model.predict(data=data)
 
