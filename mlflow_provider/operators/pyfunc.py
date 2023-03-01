@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import Any, Dict, Optional, Union, List
@@ -77,7 +78,8 @@ def _model_load_and_predict(
 
     # Run Inference and convert results to list of json depending on result type
     if data is None:
-        result = loaded_model.predict(data=nparray(literal_eval(''.join(data_string.splitlines()))))
+        logging.info(data_string)
+        result = loaded_model.predict(data=nparray(literal_eval(data_string)))
     else:
         result = loaded_model.predict(data=data)
 
