@@ -113,8 +113,9 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
         'model_uri',
         'dst_path',
         'data_string',
+        "op_args", "op_kwargs"
     )
-    template_fields_renderers = {}
+    template_fields_renderers = {"op_args": "py", "op_kwargs": "py"}
     template_ext = ()
     ui_color = '#f4a460'
 
