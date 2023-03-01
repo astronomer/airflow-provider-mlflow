@@ -152,7 +152,8 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
                 'model_uri':self.model_uri,
                 'suppress_warnings':self.suppress_warnings,
                 'dst_path':self.dst_path,
-                'data':self.data
+                'data':self.data,
+                'data_string':self.data_string
             },
             string_args=None,
             templates_dict=None,
