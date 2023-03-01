@@ -78,7 +78,7 @@ def _model_load_and_predict(
     if data is None:
         print(data_string)
         print(type(data_string))
-        result = loaded_model.predict(data=nparray(literal_eval(data_string)))
+        result = loaded_model.predict(data=nparray(data_string))
     else:
         result = loaded_model.predict(data=data)
 
