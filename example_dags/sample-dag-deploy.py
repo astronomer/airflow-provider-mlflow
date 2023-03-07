@@ -1,22 +1,18 @@
-import json
 
+import pandas
+from airflow.decorators import dag
 from airflow.utils.helpers import chain
 from pendulum import datetime
 
-from airflow.decorators import dag
-
-from mlflow_provider.operators.registry import (
-    CreateRegisteredModelOperator,
-    CreateModelVersionsOperator,
-    TransitionModelVersionStageOperator
-)
-
 from mlflow_provider.operators.deployment import (
     CreateDeploymentOperator,
-    PredictOperator
+    PredictOperator,
 )
-
-import pandas
+from mlflow_provider.operators.registry import (
+    CreateModelVersionsOperator,
+    CreateRegisteredModelOperator,
+    TransitionModelVersionStageOperator,
+)
 
 test_sample = {
     "columns": ["capital_gain", "capital_loss", "hours_per_week", "workclass_Federal-gov", "workclass_Local-gov",

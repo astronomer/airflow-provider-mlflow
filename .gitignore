@@ -9,6 +9,9 @@ __pycache__/
 # C extensions
 *.so
 
+# Ruff
+.ruff_cache/*
+
 # Distribution / packaging
 .Python
 build/
@@ -139,4 +142,3 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
-
