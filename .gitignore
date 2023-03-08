@@ -10,7 +10,7 @@ __pycache__/
 *.so
 
 # Ruff
-.ruff_cache/*
+.ruff_cache/
 
 # Distribution / packaging
 .Python
