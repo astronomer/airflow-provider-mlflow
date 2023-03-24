@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, List
 
 from airflow.exceptions import AirflowException
 from airflow.models import BaseOperator
@@ -37,7 +37,7 @@ class CreateRegisteredModelOperator(BaseOperator):
             *,
             mlflow_conn_id: str = 'mlflow_default',
             name: str,
-            tags: Optional[list[Dict[str, str]]] = None,
+            tags: Optional[List[Dict[str, str]]] = None,
             description: Optional[str] = None,
             **kwargs: Any,
     ) -> None:
