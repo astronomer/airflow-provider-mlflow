@@ -1,4 +1,4 @@
-# TODO Cleanup up sample dag with user friendly exampeles
+# TODO Cleanup up sample dag with user friendly examples
 from airflow.decorators import dag
 from airflow.utils.helpers import chain
 from pendulum import datetime

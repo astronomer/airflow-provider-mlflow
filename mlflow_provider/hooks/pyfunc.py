@@ -73,5 +73,3 @@ class MLflowPyfuncHook(MLflowBaseHook):
     #     self._env_cleanup()
     #
     #     return result.to_json()
-
-

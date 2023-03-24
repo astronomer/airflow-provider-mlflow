@@ -10,8 +10,6 @@ Run test:
 """
 
 import logging
-import os
-import pytest
 import requests_mock
 import unittest
 from unittest import mock

@@ -50,7 +50,6 @@ def _model_load_and_predict(
     from mlflow import pyfunc
     from numpy import ndarray
     from numpy import array as nparray
-    from ast import literal_eval
 
     # Setup env variables for authentication
     if 'cloud.databricks.com' in host:

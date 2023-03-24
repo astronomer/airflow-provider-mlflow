@@ -49,7 +49,7 @@ class CreateDeploymentOperator(BaseOperator):
             name: str,
             model_uri: str,
             target_uri: str,
-            target_conn_id: str = None,
+            target_conn_id: str | None = None,
             flavor: Optional[str] = None,
             config: Optional[dict] = None,
             endpoint: Optional[str] = None,
@@ -109,7 +109,7 @@ class PredictOperator(BaseOperator):
         'target_uri',
         'target_conn_id'
     ]
-    template_fields_renderers = {}
+    template_fields_renderers:Dict[str, str] = {}
     template_ext = ()
     ui_color = '#f4a460'
 
@@ -120,9 +120,9 @@ class PredictOperator(BaseOperator):
             mlflow_conn_id: str = 'mlflow_default',
             deployment_name: str,
             inputs: Any = None,
-            endpoint: Optional[str] = None,
+            endpoint: Optional[str] | None = None,
             target_uri: str,
-            target_conn_id: str = None,
+            target_conn_id: str | None = None,
             **kwargs: Any
     ) -> None:
         super().__init__(**kwargs)

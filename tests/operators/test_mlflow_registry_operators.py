@@ -9,17 +9,13 @@ Run test:
 
 """
 
-import json
 import logging
-import os
-import pytest
 import requests_mock
 import unittest
 from unittest import mock
 
 # Import Operator
 from mlflow_provider.operators.registry import *
-from mlflow_provider.hooks.client import MLflowClientHook
 
 
 log = logging.getLogger(__name__)

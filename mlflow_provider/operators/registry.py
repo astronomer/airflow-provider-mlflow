@@ -27,7 +27,7 @@ class CreateRegisteredModelOperator(BaseOperator):
         'tags',
         'description'
     ]
-    template_fields_renderers = {'tags': 'json'}
+    template_fields_renderers: Dict[str, str] = {'tags': 'json'}
     template_ext = ()
     ui_color = '#f4a460'
 
@@ -38,7 +38,7 @@ class CreateRegisteredModelOperator(BaseOperator):
             mlflow_conn_id: str = 'mlflow_default',
             name: str,
             tags: Optional[list[Dict[str, str]]] = None,
-            description: Optional[str] = None,
+            description: Optional[str] | None = None,
             **kwargs: Any,
     ) -> None:
         super().__init__(**kwargs)
@@ -54,7 +54,7 @@ class CreateRegisteredModelOperator(BaseOperator):
 
     def execute(self, context: Dict[str, Any]) -> Any:
 
-        request_params = {
+        request_params: Dict[str, Any] = {
             'name': self.name,
         }
 
@@ -92,7 +92,7 @@ class GetRegisteredModelOperator(BaseOperator):
     template_fields = [
         'name',
     ]
-    template_fields_renderers = {}
+    template_fields_renderers: Dict[str, str] = {}
     template_ext = ()
     ui_color = '#f4a460'
 
@@ -150,7 +150,7 @@ class DeleteRegisteredModelOperator(BaseOperator):
     template_fields = [
         'name',
     ]
-    template_fields_renderers = {}
+    template_fields_renderers: Dict[str, str] = {}
     template_ext = ()
     ui_color = '#f4a460'
 
@@ -205,7 +205,7 @@ class GetLatestModelVersionsOperator(BaseOperator):
     template_fields = [
         'name',
     ]
-    template_fields_renderers = {}
+    template_fields_renderers: Dict[str, str] = {}
     template_ext = ()
     ui_color = '#f4a460'
 
@@ -230,7 +230,7 @@ class GetLatestModelVersionsOperator(BaseOperator):
 
     def execute(self, context: Dict[str, Any]) -> Any:
 
-        request_params = {
+        request_params: Dict[str, Any] = {
             'name': self.name,
         }
 
@@ -313,7 +313,7 @@ class CreateModelVersionsOperator(BaseOperator):
 
     def execute(self, context: Dict[str, Any]) -> Any:
 
-        request_params = {
+        request_params: Dict[str, Any] = {
             'name': self.name,
             'source': self.source
         }
@@ -361,7 +361,7 @@ class GetModelVersionOperator(BaseOperator):
         'name',
         'version'
     ]
-    template_fields_renderers = {}
+    template_fields_renderers: Dict[str, str] = {}
     template_ext = ()
     ui_color = '#f4a460'
 
@@ -425,7 +425,7 @@ class DeleteModelVersionOperator(BaseOperator):
         'name',
         'version'
     ]
-    template_fields_renderers = {}
+    template_fields_renderers: Dict[str, str] = {}
     template_ext = ()
     ui_color = '#f4a460'
 
@@ -493,7 +493,7 @@ class TransitionModelVersionStageOperator(BaseOperator):
         'name',
         'version'
     ]
-    template_fields_renderers = {}
+    template_fields_renderers: Dict[str, str] = {}
     template_ext = ()
     ui_color = '#f4a460'
 
