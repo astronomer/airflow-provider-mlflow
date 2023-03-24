@@ -37,8 +37,8 @@ class CreateRegisteredModelOperator(BaseOperator):
             *,
             mlflow_conn_id: str = 'mlflow_default',
             name: str,
-            tags: Optional[list[Dict[str, str]]] | None = None,
-            description: Optional[str] | None = None,
+            tags: Optional[list[Dict[str, str]]] = None,
+            description: Optional[str] = None,
             **kwargs: Any,
     ) -> None:
         super().__init__(**kwargs)
