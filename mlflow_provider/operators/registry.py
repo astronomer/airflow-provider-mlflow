@@ -37,7 +37,7 @@ class CreateRegisteredModelOperator(BaseOperator):
             *,
             mlflow_conn_id: str = 'mlflow_default',
             name: str,
-            tags: Optional[list[Dict[str, str]]] = None,
+            tags: Optional[list[Dict[str, str]]] | None = None,
             description: Optional[str] | None = None,
             **kwargs: Any,
     ) -> None:
