@@ -215,7 +215,7 @@ class GetLatestModelVersionsOperator(BaseOperator):
             *,
             mlflow_conn_id: str = 'mlflow_default',
             name: str,
-            stages: Optional[list[str]] = None,
+            stages: Optional[List[str]] = None,
             **kwargs: Any,
     ) -> None:
         super().__init__(**kwargs)
