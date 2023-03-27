@@ -22,7 +22,7 @@ class MLflowDeploymentHook(MLflowBaseHook):
             self,
             mlflow_conn_id: str,
             target_uri: str,
-            target_conn_id: str = None
+            target_conn_id: str | None = None
     ) -> None:
         super().__init__()
         self.mlflow_conn_id = mlflow_conn_id
@@ -75,7 +75,7 @@ class MLflowDeploymentHook(MLflowBaseHook):
             endpoint: Optional[str] = None
     ):
         client = self.get_conn()
-        
+
         result = client.create_deployment(
             name=name,
             model_uri=model_uri,
@@ -93,7 +93,7 @@ class MLflowDeploymentHook(MLflowBaseHook):
             self,
             deployment_name: str,
             inputs: Any,
-            endpoint: str = None
+            endpoint: str | None = None
     ):
         client = self.get_conn()
 
@@ -106,5 +106,3 @@ class MLflowDeploymentHook(MLflowBaseHook):
         self._env_cleanup()
 
         return result.to_json()
-
-

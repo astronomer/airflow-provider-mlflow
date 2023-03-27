@@ -1,0 +1,8 @@
+ARG MLFLOW_VERSION=">=2.0"
+FROM python:3.9.15
+
+
+RUN pip install mlflow${MLFLOW_VERSION} psycopg2==2.9.5 pysftp==0.2.9 && \
+    mkdir -p /server
+
+WORKDIR /server

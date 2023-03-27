@@ -1,19 +1,15 @@
-# TODO Cleanup up sample dag with user friendly exampeles
+# TODO Cleanup up sample dag with user friendly examples
+from airflow.decorators import dag
 from airflow.utils.helpers import chain
 from pendulum import datetime
 
-from airflow.decorators import dag, task
-
-from mlflow_provider.hooks.client import MLflowClientHook
 from mlflow_provider.operators.registry import (
-    CreateRegisteredModelOperator,
-    GetRegisteredModelOperator,
-    DeleteRegisteredModelOperator,
-    GetLatestModelVersionsOperator,
     CreateModelVersionsOperator,
+    CreateRegisteredModelOperator,
+    GetLatestModelVersionsOperator,
     GetModelVersionOperator,
-    DeleteModelVersionOperator,
-    TransitionModelVersionStageOperator
+    GetRegisteredModelOperator,
+    TransitionModelVersionStageOperator,
 )
 
 

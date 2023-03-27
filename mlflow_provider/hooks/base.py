@@ -82,5 +82,3 @@ class MLflowBaseHook(BaseHook):
                     del os.environ[k]
                 except KeyError as e:
                     logging.warning(f'{k} could not be removed because it does not exist. {e}')
-
-
