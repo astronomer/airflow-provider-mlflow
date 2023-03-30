@@ -79,7 +79,10 @@ def _model_load_and_predict(
         print(type(data_string))
         result = loaded_model.predict(data=nparray(data_string))
     else:
-        result = loaded_model.predict(data=data)
+        if type(data) is List:
+            result = loaded_model.predict(data=nparray(data))
+        else:
+            result = loaded_model.predict(data=data)
 
     if type(result) is ndarray:
         return result.tolist()
