@@ -87,7 +87,7 @@ def _model_load_and_predict(
         return result.to_json()
 
 
-class AirflowPredict(_BasePythonVirtualenvOperator):
+class AirflowPredictOperator(_BasePythonVirtualenvOperator):
     """
     Deploy MLflow models
 

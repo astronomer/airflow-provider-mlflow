@@ -28,7 +28,7 @@ operators:
   - module: mlflow_provider.operators.registry.GetRegisteredModelOperator
   - module: mlflow_provider.operators.registry.DeleteRegisteredModelOperator
   - module: mlflow_provider.operators.registry.GetLatestModelVersionsOperator
-  - module: mlflow_provider.operators.registry.CreateModelVersionsOperator
+  - module: mlflow_provider.operators.registry.CreateModelVersionOperator
   - module: mlflow_provider.operators.registry.GetModelVersionOperator
   - module: mlflow_provider.operators.registry.DeleteModelVersionOperator
   - module: mlflow_provider.operators.registry.TransitionModelVersionStageOperator

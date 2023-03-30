@@ -251,7 +251,7 @@ class GetLatestModelVersionsOperator(BaseOperator):
         return response.json()
 
 
-class CreateModelVersionsOperator(BaseOperator):
+class CreateModelVersionOperator(BaseOperator):
     """
     Calls an endpoint on an HTTP system to execute an action.
 

@@ -9,7 +9,7 @@ from mlflow_provider.operators.deployment import (
     PredictOperator,
 )
 from mlflow_provider.operators.registry import (
-    CreateModelVersionsOperator,
+    CreateModelVersionOperator,
     CreateRegisteredModelOperator,
     TransitionModelVersionStageOperator,
 )
@@ -79,7 +79,7 @@ def deploy_workflow():
         description='test description'
     )
 
-    create_model_version = CreateModelVersionsOperator(
+    create_model_version = CreateModelVersionOperator(
         task_id='create_model_version',
         name="{{ ti.xcom_pull(task_ids='create_registered_model')['registered_model']['name'] }}",
         source='dbfs:/databricks/mlflow-tracking/3853418861027039/8f7878c1b6ac4393938ef0a0ee5f392c/artifacts/model',

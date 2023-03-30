@@ -14,7 +14,7 @@ class MLflowPyfuncHook(MLflowBaseHook):
     """
 
     # TODO update hook names to match Airflow naming convention
-    hook_name = 'MLflow Deployment'
+    hook_name = 'MLflow Pyfunc'
 
     def __init__(
             self,
@@ -31,45 +31,3 @@ class MLflowPyfuncHook(MLflowBaseHook):
 
         self._set_env_variables()
         return pyfunc
-
-
-    # def create_deployment(
-    #         self,
-    #         name: str,
-    #         model_uri: str,
-    #         flavor: Optional[str] = None,
-    #         config: Optional[dict] = None,
-    #         endpoint: Optional[str] = None
-    # ):
-    #     client = self.get_conn()
-    #
-    #     result = client.create_deployment(
-    #         name=name,
-    #         model_uri=model_uri,
-    #         flavor=flavor,
-    #         config=config,
-    #         endpoint=endpoint
-    #     )
-    #
-    #     self._env_cleanup()
-    #
-    #     return result
-    #
-    # # TODO should we add ability to store to specified locations - DB, Object storage, etc.?
-    # def predict(
-    #         self,
-    #         deployment_name: str,
-    #         inputs: Any,
-    #         endpoint: str = None
-    # ):
-    #     client = self.get_conn()
-    #
-    #     result = client.predict(
-    #         deployment_name = deployment_name,
-    #         inputs=inputs,
-    #         endpoint=endpoint
-    #     )
-    #
-    #     self._env_cleanup()
-    #
-    #     return result.to_json()
