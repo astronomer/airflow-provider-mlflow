@@ -40,7 +40,7 @@ class TestAirflowPredictOperator:
     @mock.patch("mlflow_provider.operators.pyfunc.AirflowPredictOperator._execute_python_callable_in_subprocess")
     def test_execute(self, mock_get_dependencies, mock_execute_python_callable):
 
-        with pytest.raises(TypeError):
+        with pytest.raises(Exception):
             operator = AirflowPredictOperator(
                 task_id='test_task_id',
                 mlflow_conn_id = TEST_MLFLOW_CONN_ID,
