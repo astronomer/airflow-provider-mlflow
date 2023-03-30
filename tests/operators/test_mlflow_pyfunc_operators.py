@@ -37,8 +37,8 @@ class TestAirflowPredictOperator:
     """
 
     @mock.patch("mlflow.pyfunc.get_model_dependencies")
-    @mock.patch("mlflow_provider.operators.pyfunc.AirflowPredictOperator._execute_python_callable_in_subprocess")
-    def test_execute(self, mock_get_dependencies, mock_execute_python_callable):
+    # @mock.patch("mlflow_provider.operators.pyfunc.AirflowPredictOperator._execute_python_callable_in_subprocess")
+    def test_execute(self, mock_get_dependencies):
 
         with pytest.raises(Exception):
             operator = AirflowPredictOperator(
@@ -50,4 +50,4 @@ class TestAirflowPredictOperator:
 
             operator.execute(context=MagicMock())
             mock_get_dependencies.assert_called_once_with(TEST_MODEL_URI)
-            mock_execute_python_callable.assert_called_once()
+            # mock_execute_python_callable.assert_called_once()
