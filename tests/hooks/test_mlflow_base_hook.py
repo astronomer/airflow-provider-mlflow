@@ -47,6 +47,7 @@ class TestBaseHook:
         assert os.environ['MLFLOW_TRACKING_URI'] == 'servvice.com'
         assert os.environ['MLFLOW_TRACKING_USERNAME'] == 'username'
         assert os.environ['MLFLOW_TRACKING_PASSWORD'] == 'password'
+        assert os.environ['LOGNAME'] == 'username'
 
         assert 'MLFLOW_TRACKING_TOKEN' not in os.environ
         assert 'DATABRICKS_HOST' not in os.environ
