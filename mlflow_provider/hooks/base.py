@@ -53,6 +53,7 @@ class MLflowBaseHook(BaseHook):
         if conn.login == 'token':
             os.environ['MLFLOW_TRACKING_TOKEN'] = conn.password
         elif conn.login and conn.password:
+            os.environ['LOGNAME'] = conn.login
             os.environ['MLFLOW_TRACKING_USERNAME'] = conn.login
             os.environ['MLFLOW_TRACKING_PASSWORD'] = conn.password
 
