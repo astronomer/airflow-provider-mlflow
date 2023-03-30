@@ -111,6 +111,7 @@ class AirflowPredictOperator(_BasePythonVirtualenvOperator):
     template_fields: Sequence[str] = (
         'model_uri',
         'dst_path',
+        'data',
         'data_string',
         "op_args", "op_kwargs"
     )
