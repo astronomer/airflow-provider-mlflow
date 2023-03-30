@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Any, Dict, Optional
 
 from airflow.exceptions import AirflowException
@@ -49,7 +51,7 @@ class CreateDeploymentOperator(BaseOperator):
             name: str,
             model_uri: str,
             target_uri: str,
-            target_conn_id: str | None = None,
+            target_conn_id: Optional[str] = None,
             flavor: Optional[str] = None,
             config: Optional[dict] = None,
             endpoint: Optional[str] = None,
