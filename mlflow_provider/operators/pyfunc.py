@@ -71,7 +71,7 @@ def _model_load_and_predict(
     )
 
     # Run Inference and convert results to list of json depending on result type
-    if type(data) is list:
+    if isinstance(data, list):
         result = loaded_model.predict(data=nparray(data))
     else:
         result = loaded_model.predict(data=data)
