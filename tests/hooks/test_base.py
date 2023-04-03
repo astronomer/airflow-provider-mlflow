@@ -17,7 +17,7 @@ env_vars = {
         'AIRFLOW_CONN_MLFLOW_BEARER': 'https://token:password@servvice.com:80',
         'AIRFLOW_CONN_MLFLOW_BASICAUTH': 'https://username:password@servvice.com:80'
     }
-    
+
 @mock.patch.dict('os.environ', env_vars)
 class TestBaseHook:
     """
