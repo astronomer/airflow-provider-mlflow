@@ -1,6 +1,7 @@
+from __future__ import annotations
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Any, Dict, Optional, Union, List, Sequence
+from typing import Any, Dict, Union, List, Sequence
 
 from numpy import ndarray
 from pandas.core.frame import DataFrame
@@ -31,7 +32,7 @@ def _model_load_and_predict(
     :type host: str
     :param login: MLflow login (for API keys use 'token')
     :type login: str
-    :param password: MLflow password (if using an API Key use that)
+    :param password: MLflow password (if using an API Key use that here)
     :type password: str
     :param model_uri: MLflow model URI
     :type model_uri: str
@@ -58,8 +59,9 @@ def _model_load_and_predict(
         os.environ['MLFLOW_TRACKING_URI'] = host
 
     if login == 'token':
-        os.environ['MLFLOW_TRACKING_TOKEN'] = host
+        os.environ['MLFLOW_TRACKING_TOKEN'] = password
     else:
+        os.environ['LOGNAME'] = login
         os.environ['MLFLOW_TRACKING_USERNAME'] = login
         os.environ['MLFLOW_TRACKING_PASSWORD'] = password
 
@@ -121,7 +123,7 @@ class ModelLoadAndPredictOperator(_BasePythonVirtualenvOperator):
             mlflow_conn_id: str = 'mlflow_default',
             model_uri: str,
             suppress_warnings: bool = False,
-            dst_path: Optional[str] = None,
+            dst_path: str | None = None,
             data: Union[DataFrame, Series, ndarray, csc_matrix, csr_matrix, List[Any], Dict[str, Any]],
             # python_callable: Optional[Callable] = _model_load_and_predict,
             **kwargs: Any

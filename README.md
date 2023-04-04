@@ -35,4 +35,4 @@ Quick Start
 
 `pip install airflow-provider-mlflow`
 
-Examples can be found in the `example_dags` directory.
+Examples can be found in the [example_dags](example_dags) directory.

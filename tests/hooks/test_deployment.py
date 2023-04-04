@@ -5,7 +5,6 @@ from mlflow.exceptions import MlflowException
 
 import pytest
 
-# Import Operator
 from mlflow_provider.hooks.deployment import MLflowDeploymentHook
 
 TEST_MLFLOW_CONN_ID = 'mlflow_conn'
@@ -30,9 +29,6 @@ TEST_ENDPOINT = 'test_endpoint'
 @mock.patch.dict('os.environ',
                  AIRFLOW_CONN_NON_AWS_TARGET_CONN='something_else://AKIAIOSFODNN7EXAMPLE:wJalrXUtnFEMI%2FK7MDENG%2FbPxRfiCYEXAMPLEKEY@')
 class TestDeploymentHook:
-    """
-    Test Deployment Hook.
-    """
 
     @mock.patch("mlflow_provider.hooks.deployment.MLflowDeploymentHook.aws_conn_dict")
     def test_aws_conn_dict_called(self, mock_aws_dict):

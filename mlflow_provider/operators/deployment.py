@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 from airflow.exceptions import AirflowException
 from airflow.models import BaseOperator
@@ -51,10 +51,10 @@ class CreateDeploymentOperator(BaseOperator):
             name: str,
             model_uri: str,
             target_uri: str,
-            target_conn_id: Optional[str] = None,
-            flavor: Optional[str] = None,
-            config: Optional[dict] = None,
-            endpoint: Optional[str] = None,
+            target_conn_id: str | None = None,
+            flavor: str | None = None,
+            config: dict | None = None,
+            endpoint: str | None = None,
             **kwargs: Any
     ) -> None:
         super().__init__(**kwargs)
@@ -101,7 +101,7 @@ class PredictOperator(BaseOperator):
     :type endpoint: str
     :param target_uri: URI of location to deploy the model (ie 'sagemaker')
     :type target_uri: str
-    :param target_conn_id: Airflow connection id for target system
+    :param target_conn_id:  Connection id for target system
     :type target_conn_id: str
     """
 
@@ -122,7 +122,7 @@ class PredictOperator(BaseOperator):
             mlflow_conn_id: str = 'mlflow_default',
             deployment_name: str,
             inputs: Any = None,
-            endpoint: Optional[str] | None = None,
+            endpoint: str | None = None,
             target_uri: str,
             target_conn_id: str | None = None,
             **kwargs: Any

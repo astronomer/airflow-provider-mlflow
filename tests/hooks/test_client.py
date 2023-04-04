@@ -1,32 +1,17 @@
-"""
-Unittest module to test Hooks.
-
-Requires the unittest, pytest, and requests-mock Python libraries.
-
-Run test:
-
-    python3 -m unittest tests.hooks.test_sample_hook.TestMLflowClientHook
-
-"""
-
 import requests_mock
-import unittest
 from unittest import mock
 
-# Import Hook
 from mlflow_provider.hooks.client import MLflowClientHook
 
 # Mock the `conn_sample` Airflow connection
 @mock.patch.dict('os.environ', AIRFLOW_CONN_MLFLOW_CONNECTION='http://https%3A%2F%2Fwww.httpbin.org%2F')
-class TestMLflowClientHook(unittest.TestCase):
-    """
-    Test MLflow Client Hook.
-    """
+class TestMLflowClientHook:
 
-    @requests_mock.mock()
-    def test_post(self, m):
+    @requests_mock.Mocker(kw='m')
+    def test_post(self, **kwargs):
 
         # Mock endpoint
+        m = kwargs['m']
         m.post('https://www.httpbin.org/api/endpoint', json={'data': 'mocked response'})
 
         # Instantiate hook
@@ -50,10 +35,11 @@ class TestMLflowClientHook(unittest.TestCase):
         # Assert the API call returns expected mocked payload
         assert payload['data'] == 'mocked response'
 
-    @requests_mock.mock()
-    def test_get(self, m):
+    @requests_mock.Mocker(kw='m')
+    def test_get(self, **kwargs):
 
         # Mock endpoint
+        m = kwargs['m']
         m.get('https://www.httpbin.org/api/endpoint', json={'data': 'mocked response'})
 
         # Instantiate hook
@@ -77,10 +63,11 @@ class TestMLflowClientHook(unittest.TestCase):
         # Assert the API call returns expected mocked payload
         assert payload['data'] == 'mocked response'
 
-    @requests_mock.mock()
-    def test_delete(self, m):
+    @requests_mock.Mocker(kw='m')
+    def test_delete(self, **kwargs):
 
         # Mock endpoint
+        m = kwargs['m']
         m.delete('https://www.httpbin.org/api/endpoint')
 
         # Instantiate hook
@@ -97,7 +84,3 @@ class TestMLflowClientHook(unittest.TestCase):
 
         # Assert success status code
         assert response.status_code == 200
-
-
-if __name__ == '__main__':
-    unittest.main()

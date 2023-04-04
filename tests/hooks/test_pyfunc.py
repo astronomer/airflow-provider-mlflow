@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from unittest import mock
 
-# Import Operator
 from mlflow_provider.hooks.pyfunc import MLflowPyfuncHook
 
 # Mock the Airflow connections
@@ -15,9 +14,6 @@ from mlflow_provider.hooks.pyfunc import MLflowPyfuncHook
 @mock.patch.dict('os.environ',
                  AIRFLOW_CONN_MLFLOW_BASICAUTH='https://username:password@servvice.com:80')
 class TestBaseHook:
-    """
-    Test Pyfunc Hook.
-    """
 
     @mock.patch('mlflow_provider.hooks.pyfunc.MLflowPyfuncHook._set_env_variables')
     def test_get_conn(self, mock_set_env):

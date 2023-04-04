@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from unittest import mock
@@ -9,7 +8,6 @@ import logging
 import pytest
 from pandas import DataFrame
 
-# Import Operator
 from mlflow_provider.operators.deployment import *
 
 log = logging.getLogger(__name__)
@@ -34,9 +32,6 @@ TEST_ENDPOINT = 'test_endpoint'
 @mock.patch.dict('os.environ',
                  AIRFLOW_CONN_TARGET_CONN='aws://AKIAIOSFODNN7EXAMPLE:wJalrXUtnFEMI%2FK7MDENG%2FbPxRfiCYEXAMPLEKEY@')
 class TestCreateDeploymentOperator:
-    """
-    Test Create Deployment Operator.
-    """
 
     @mock.patch("mlflow_provider.hooks.deployment.MLflowDeploymentHook.create_deployment")
     def test_execute(self, mock_hook):
@@ -66,6 +61,9 @@ class TestPredictOperator:
 
     @mock.patch("mlflow_provider.hooks.deployment.MLflowDeploymentHook.predict")
     def test_operator_predict(self, mock_hook):
+        """
+        Test predict operator to make sure it calls the hook with correct parameters.
+        """
 
         with pytest.raises(ValueError):
             operator = PredictOperator(

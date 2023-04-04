@@ -5,7 +5,7 @@ from mlflow_provider.hooks.base import MLflowBaseHook
 
 class MLflowPyfuncHook(MLflowBaseHook):
     """
-    Sample Hook that interacts with an HTTP endpoint the Python requests library.
+    Hook that interacts with the mlflow.pyfunc module. https://www.mlflow.org/docs/latest/python_api/mlflow.pyfunc.html
 
     :param aws_conn_id: AWS connection to use with hook
     :type aws_conn_id: str
@@ -13,7 +13,6 @@ class MLflowPyfuncHook(MLflowBaseHook):
     :type target_uri: str
     """
 
-    # TODO update hook names to match Airflow naming convention
     hook_name = 'MLflow Pyfunc'
 
     def __init__(
@@ -26,7 +25,7 @@ class MLflowPyfuncHook(MLflowBaseHook):
 
     def get_conn(self) -> pyfunc:
         """
-        Returns MLflow deployment Client.
+        Returns MLflow Pyfunc Client.
         """
 
         self._set_env_variables()

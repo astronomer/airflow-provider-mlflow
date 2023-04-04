@@ -1,31 +1,12 @@
-"""
-Unittest module to test Operators.
-
-Requires the unittest, pytest, and requests-mock Python libraries.
-
-Run test:
-
-    python3 -m unittest tests.operators.test_mlflow_registry_operators.TestRegistryOperators
-
-"""
-
-import logging
 import requests_mock
 from unittest import mock
 
-# Import Operator
 from mlflow_provider.operators.registry import *
-
-
-log = logging.getLogger(__name__)
 
 
 # Mock the `conn_sample` Airflow connection
 @mock.patch.dict('os.environ', AIRFLOW_CONN_MLFLOW_CONN='http://https%3A%2F%2Fwww.httpbin.org%2F')
 class TestRegistryOperators:
-    """
-    Test Registry Operators.
-    """
 
     @requests_mock.Mocker(kw='m')
     def test_operator_create_registered_model(self, **kwargs):
@@ -44,8 +25,6 @@ class TestRegistryOperators:
 
         # Airflow calls the operator's execute method at runtime with the task run's bespoke context dictionary
         response_payload = operator.execute(context={})
-
-        log.info(response_payload)
 
         # Assert the API call returns expected mocked payload
         assert response_payload['data'] == 'mocked response'
@@ -66,8 +45,6 @@ class TestRegistryOperators:
         # Airflow calls the operator's execute method at runtime with the task run's bespoke context dictionary
         response_payload = operator.execute(context={})
 
-        log.info(response_payload)
-
         # Assert the API call returns expected mocked payload
         assert response_payload['data'] == 'mocked response'
 
@@ -86,8 +63,6 @@ class TestRegistryOperators:
 
         # Airflow calls the operator's execute method at runtime with the task run's bespoke context dictionary
         response_payload = operator.execute(context={})
-
-        log.info(response_payload)
 
         # Assert the API call returns expected mocked payload
         assert response_payload is None
@@ -110,8 +85,6 @@ class TestRegistryOperators:
 
         # Airflow calls the operator's execute method at runtime with the task run's bespoke context dictionary
         response_payload = operator.execute(context={})
-
-        log.info(response_payload)
 
         # Assert the API call returns expected mocked payload
         assert response_payload['data'] == 'mocked response'
@@ -136,8 +109,6 @@ class TestRegistryOperators:
         # Airflow calls the operator's execute method at runtime with the task run's bespoke context dictionary
         response_payload = operator.execute(context={})
 
-        log.info(response_payload)
-
         # Assert the API call returns expected mocked payload
         assert response_payload['data'] == 'mocked response'
 
@@ -160,8 +131,6 @@ class TestRegistryOperators:
 
         # Airflow calls the operator's execute method at runtime with the task run's bespoke context dictionary
         response_payload = operator.execute(context={})
-
-        log.info(response_payload)
 
         # Assert the API call returns expected mocked payload
         assert response_payload['data'] == 'mocked response'
@@ -187,8 +156,6 @@ class TestRegistryOperators:
         # Airflow calls the operator's execute method at runtime with the task run's bespoke context dictionary
         response_payload = operator.execute(context={})
 
-        log.info(response_payload)
-
         # Assert the API call returns expected mocked payload
         assert response_payload is None
 
@@ -213,8 +180,6 @@ class TestRegistryOperators:
 
         # Airflow calls the operator's execute method at runtime with the task run's bespoke context dictionary
         response_payload = operator.execute(context={})
-
-        log.info(response_payload)
 
         # Assert the API call returns expected mocked payload
         assert response_payload['data'] == 'mocked response'

@@ -3,7 +3,6 @@ from __future__ import annotations
 import os
 from unittest import mock
 
-# Import Operator
 from mlflow_provider.hooks.base import MLflowBaseHook
 
 # Mock the Airflow connections
@@ -16,9 +15,6 @@ env_vars = {
 
 @mock.patch.dict('os.environ', env_vars)
 class TestBaseHook:
-    """
-    Test Base Hook.
-    """
 
     def test_set_env_variables_bearer_token(self):
         hook = MLflowBaseHook(

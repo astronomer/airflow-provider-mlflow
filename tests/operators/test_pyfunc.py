@@ -6,7 +6,6 @@ import logging
 
 import pytest
 
-# Import Operator
 from mlflow_provider.operators.pyfunc import *
 
 
@@ -32,9 +31,6 @@ TEST_ENDPOINT = 'test_endpoint'
 @mock.patch.dict('os.environ',
                  AIRFLOW_CONN_MLFLOW_CONN='http://username:password@servvice.com:80/https?headers=header')
 class TestAirflowPredictOperator:
-    """
-    Test Airflow Predict Operator.
-    """
 
     # TODO - fix this test
     @pytest.mark.skip(reason="works locally fails on CI - need to fix")
