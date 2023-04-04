@@ -1,13 +1,9 @@
 from __future__ import annotations
 
 from unittest import mock
-import logging
 
 # Import Operator
 from mlflow_provider.hooks.pyfunc import MLflowPyfuncHook
-
-log = logging.getLogger(__name__)
-
 
 # Mock the Airflow connections
 @mock.patch.dict('os.environ',

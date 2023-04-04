@@ -2,13 +2,9 @@ from __future__ import annotations
 
 import os
 from unittest import mock
-import logging
 
 # Import Operator
 from mlflow_provider.hooks.base import MLflowBaseHook
-
-log = logging.getLogger(__name__)
-
 
 # Mock the Airflow connections
 env_vars = {

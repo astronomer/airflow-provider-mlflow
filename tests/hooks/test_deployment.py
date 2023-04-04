@@ -2,14 +2,11 @@ from __future__ import annotations
 
 from unittest import mock
 from mlflow.exceptions import MlflowException
-import logging
 
 import pytest
 
 # Import Operator
 from mlflow_provider.hooks.deployment import MLflowDeploymentHook
-
-log = logging.getLogger(__name__)
 
 TEST_MLFLOW_CONN_ID = 'mlflow_conn'
 TEST_NAME = 'test_model_name'
