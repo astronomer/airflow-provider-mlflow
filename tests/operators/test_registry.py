@@ -11,7 +11,6 @@ Run test:
 
 import logging
 import requests_mock
-import unittest
 from unittest import mock
 
 # Import Operator
@@ -211,7 +210,3 @@ class TestRegistryOperators:
 
         # Assert the API call returns expected mocked payload
         assert response_payload['data'] == 'mocked response'
-
-
-if __name__ == '__main__':
-    unittest.main()
