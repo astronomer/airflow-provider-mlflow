@@ -23,7 +23,7 @@ log = logging.getLogger(__name__)
 
 # Mock the `conn_sample` Airflow connection
 @mock.patch.dict('os.environ', AIRFLOW_CONN_MLFLOW_CONN='http://https%3A%2F%2Fwww.httpbin.org%2F')
-class TestRegistryOperators(unittest.TestCase):
+class TestRegistryOperators:
     """
     Test Registry Operators.
     """
