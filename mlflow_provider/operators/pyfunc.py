@@ -26,7 +26,7 @@ def _model_load_and_predict(
 ):
     """
     Python Callable passed to _BasePythonVirtualenvOperator
-    
+
     :param host: MLflow host
     :type host: str
     :param login: MLflow login (for API keys use 'token')
@@ -83,7 +83,7 @@ def _model_load_and_predict(
         return result.to_json()
 
 
-class AirflowPredictOperator(_BasePythonVirtualenvOperator):
+class ModelLoadAndPredictOperator(_BasePythonVirtualenvOperator):
     """
     Deploy MLflow models
 

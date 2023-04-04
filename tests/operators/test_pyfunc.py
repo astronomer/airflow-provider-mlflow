@@ -43,7 +43,7 @@ class TestAirflowPredictOperator:
     def test_execute(self, mock_execute_python_callable, mock_get_dependencies):
 
         with pytest.raises(Exception):
-            operator = AirflowPredictOperator(
+            operator = ModelLoadAndPredictOperator(
                 task_id='test_task_id',
                 mlflow_conn_id = TEST_MLFLOW_CONN_ID,
                 model_uri = TEST_MODEL_URI,

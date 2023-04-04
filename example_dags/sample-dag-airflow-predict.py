@@ -9,7 +9,7 @@ import numpy as np
 from airflow.decorators import dag
 from pendulum import datetime
 
-from mlflow_provider.operators.pyfunc import AirflowPredictOperator
+from mlflow_provider.operators.pyfunc import ModelLoadAndPredictOperator
 
 test_sample = np.array([
     [6.1, 2.8, 4.7, 1.2],
@@ -67,7 +67,7 @@ def airflow_predict():
     - host: MLflow tracking URI (if MLFlow is hosted on Databricks use your Databricks host)
     """
 
-    AirflowPredictOperator(
+    ModelLoadAndPredictOperator(
         task_id='predict',
         model_uri='mlflow-artifacts:/3/51bc0f22c9504691811f494cc8ad9613/artifacts/model',
         data=test_sample

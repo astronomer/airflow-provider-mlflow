@@ -34,7 +34,7 @@ operators:
   - module: mlflow_provider.operators.registry.TransitionModelVersionStageOperator
   - module: mlflow_provider.operators.deployment.CreateDeploymentOperator
   - module: mlflow_provider.operators.deployment.PredictOperator
-  - module: mlflow_provider.operators.pyfunc.AirflowPredictOperator
+  - module: mlflow_provider.operators.pyfunc.ModelLoadAndPredictOperator
 
 #sensors:
 #  - module: mlflow_provider.sensors.sample_sensor.SampleSensor
