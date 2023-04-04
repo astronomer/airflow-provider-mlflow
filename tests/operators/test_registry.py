@@ -27,10 +27,11 @@ class TestRegistryOperators:
     Test Registry Operators.
     """
 
-    @requests_mock.mock()
-    def test_operator_create_registered_model(self, m):
+    @requests_mock.Mocker(kw='m')
+    def test_operator_create_registered_model(self, **kwargs):
 
         # Mock endpoint
+        m = kwargs['m']
         m.post('https://www.httpbin.org/api/2.0/mlflow/registered-models/create', json={'data': 'mocked response'})
 
         operator = CreateRegisteredModelOperator(
@@ -49,10 +50,11 @@ class TestRegistryOperators:
         # Assert the API call returns expected mocked payload
         assert response_payload['data'] == 'mocked response'
 
-    @requests_mock.mock()
-    def test_operator_get_registered_model(self, m):
+    @requests_mock.Mocker(kw='m')
+    def test_operator_get_registered_model(self, **kwargs):
 
         # Mock endpoint
+        m = kwargs['m']
         m.get('https://www.httpbin.org/api/2.0/mlflow/registered-models/get', json={'data': 'mocked response'})
 
         operator = GetRegisteredModelOperator(
@@ -69,10 +71,11 @@ class TestRegistryOperators:
         # Assert the API call returns expected mocked payload
         assert response_payload['data'] == 'mocked response'
 
-    @requests_mock.mock()
-    def test_operator_delete_registered_model(self, m):
+    @requests_mock.Mocker(kw='m')
+    def test_operator_delete_registered_model(self, **kwargs):
 
         # Mock endpoint
+        m = kwargs['m']
         m.delete('https://www.httpbin.org/api/2.0/mlflow/registered-models/delete', json={})
 
         operator = DeleteRegisteredModelOperator(
@@ -89,10 +92,11 @@ class TestRegistryOperators:
         # Assert the API call returns expected mocked payload
         assert response_payload is None
 
-    @requests_mock.mock()
-    def test_operator_get_model_versions(self, m):
+    @requests_mock.Mocker(kw='m')
+    def test_operator_get_model_versions(self, **kwargs):
 
         # Mock endpoint
+        m = kwargs['m']
         m.post(
             'https://www.httpbin.org/api/2.0/mlflow/registered-models/get-latest-versions',
             json={'data': 'mocked response'}
@@ -112,10 +116,11 @@ class TestRegistryOperators:
         # Assert the API call returns expected mocked payload
         assert response_payload['data'] == 'mocked response'
 
-    @requests_mock.mock()
-    def test_operator_create_model_version(self, m):
+    @requests_mock.Mocker(kw='m')
+    def test_operator_create_model_version(self, **kwargs):
 
         # Mock endpoint
+        m = kwargs['m']
         m.post(
             'https://www.httpbin.org/api/2.0/mlflow/model-versions/create',
             json={'data': 'mocked response'}
@@ -136,10 +141,11 @@ class TestRegistryOperators:
         # Assert the API call returns expected mocked payload
         assert response_payload['data'] == 'mocked response'
 
-    @requests_mock.mock()
-    def test_operator_get_model_version(self, m):
+    @requests_mock.Mocker(kw='m')
+    def test_operator_get_model_version(self, **kwargs):
 
         # Mock endpoint
+        m = kwargs['m']
         m.get(
             'https://www.httpbin.org/api/2.0/mlflow/model-versions/get',
             json={'data': 'mocked response'}
@@ -161,10 +167,11 @@ class TestRegistryOperators:
         assert response_payload['data'] == 'mocked response'
 
 
-    @requests_mock.mock()
-    def test_operator_delete_model_version(self, m):
+    @requests_mock.Mocker(kw='m')
+    def test_operator_delete_model_version(self, **kwargs):
 
         # Mock endpoint
+        m = kwargs['m']
         m.delete(
             'https://www.httpbin.org/api/2.0/mlflow/model-versions/delete',
             json={}
@@ -185,10 +192,11 @@ class TestRegistryOperators:
         # Assert the API call returns expected mocked payload
         assert response_payload is None
 
-    @requests_mock.mock()
-    def test_operator_transition_model_version_stage(self, m):
+    @requests_mock.Mocker(kw='m')
+    def test_operator_transition_model_version_stage(self, **kwargs):
 
         # Mock endpoint
+        m = kwargs['m']
         m.post(
             'https://www.httpbin.org/api/2.0/mlflow/model-versions/transition-stage',
             json={'data': 'mocked response'}
