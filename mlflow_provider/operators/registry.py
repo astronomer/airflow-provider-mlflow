@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Any, Dict, Optional, List
 
 from airflow.exceptions import AirflowException
@@ -9,7 +10,7 @@ from mlflow_provider.hooks.client import MLflowClientHook
 
 class CreateRegisteredModelOperator(BaseOperator):
     """
-    Calls an endpoint on an HTTP system to execute an action.
+    Creates a new registered model in MLflow.
 
     :param mlflow_conn_id: connection to run the operator with
     :type mlflow_conn_id: str
@@ -37,8 +38,8 @@ class CreateRegisteredModelOperator(BaseOperator):
             *,
             mlflow_conn_id: str = 'mlflow_default',
             name: str,
-            tags: Optional[List[Dict[str, str]]] = None,
-            description: Optional[str] = None,
+            tags: List[Dict[str, str]] | None = None,
+            description: str | None = None,
             **kwargs: Any,
     ) -> None:
         super().__init__(**kwargs)
@@ -80,7 +81,7 @@ class CreateRegisteredModelOperator(BaseOperator):
 
 class GetRegisteredModelOperator(BaseOperator):
     """
-    Calls an endpoint on an HTTP system to execute an action.
+    Gets a registered model from MLflow based on name.
 
     :param mlflow_conn_id: connection to run the operator with
     :type mlflow_conn_id: str
@@ -138,7 +139,7 @@ class GetRegisteredModelOperator(BaseOperator):
 
 class DeleteRegisteredModelOperator(BaseOperator):
     """
-    Calls an endpoint on an HTTP system to execute an action.
+    Deletes a registered model from MLflow based on name.
 
     :param mlflow_conn_id: connection to run the operator with
     :type mlflow_conn_id: str
@@ -191,11 +192,11 @@ class DeleteRegisteredModelOperator(BaseOperator):
 
 class GetLatestModelVersionsOperator(BaseOperator):
     """
-    Calls an endpoint on an HTTP system to execute an action.
+    Gets the latest model versions from MLflow Registry based on name.
 
     :param mlflow_conn_id: connection to run the operator with
     :type mlflow_conn_id: str
-    :param name: name of the registered model to delete
+    :param name: name of the registered model to get versions for
     :type name: str
     :param stages: List of stages to get
     :type stages: list
@@ -215,7 +216,7 @@ class GetLatestModelVersionsOperator(BaseOperator):
             *,
             mlflow_conn_id: str = 'mlflow_default',
             name: str,
-            stages: Optional[List[str]] = None,
+            stages: List[str] | None = None,
             **kwargs: Any,
     ) -> None:
         super().__init__(**kwargs)
@@ -251,9 +252,9 @@ class GetLatestModelVersionsOperator(BaseOperator):
         return response.json()
 
 
-class CreateModelVersionsOperator(BaseOperator):
+class CreateModelVersionOperator(BaseOperator):
     """
-    Calls an endpoint on an HTTP system to execute an action.
+    Create  a model version in MLflow Registry.
 
     :param mlflow_conn_id: connection to run the operator with
     :type mlflow_conn_id: str
@@ -291,10 +292,10 @@ class CreateModelVersionsOperator(BaseOperator):
             mlflow_conn_id: str = 'mlflow_default',
             name: str,
             source: str,
-            run_id: Optional[str] = None,
-            tags: Optional[List[Dict[str, str]]] = None,
-            run_link: Optional[str] = None,
-            description: Optional[str] = None,
+            run_id: str | None = None,
+            tags: List[Dict[str, str]] | None = None,
+            run_link: str | None = None,
+            description: str | None = None,
             **kwargs: Any,
     ) -> None:
         super().__init__(**kwargs)
@@ -346,7 +347,7 @@ class CreateModelVersionsOperator(BaseOperator):
 
 class GetModelVersionOperator(BaseOperator):
     """
-    Calls an endpoint on an HTTP system to execute an action.
+    Get specific model version from MLflow Registry.
 
     :param mlflow_conn_id: connection to run the operator with
     :type mlflow_conn_id: str
@@ -405,12 +406,12 @@ class GetModelVersionOperator(BaseOperator):
         return response.json()
 
 
-# TODO Update ModelVersion
+# TODO UpdateModelVersion
 
 
 class DeleteModelVersionOperator(BaseOperator):
     """
-    Calls an endpoint on an HTTP system to execute an action.
+    Delete specific model version from MLflow Registry.
 
     :param mlflow_conn_id: connection to run the operator with
     :type mlflow_conn_id: str
@@ -474,7 +475,7 @@ class DeleteModelVersionOperator(BaseOperator):
 
 class TransitionModelVersionStageOperator(BaseOperator):
     """
-    Calls an endpoint on an HTTP system to execute an action.
+    Transition model version to new stage.
 
     :param mlflow_conn_id: connection to run the operator with
     :type mlflow_conn_id: str

@@ -4,7 +4,7 @@ from airflow.utils.helpers import chain
 from pendulum import datetime
 
 from mlflow_provider.operators.registry import (
-    CreateModelVersionsOperator,
+    CreateModelVersionOperator,
     CreateRegisteredModelOperator,
     GetLatestModelVersionsOperator,
     GetModelVersionOperator,
@@ -88,7 +88,7 @@ def registry_workflow():
         name='census_pred1'
     )
 
-    create_model_version = CreateModelVersionsOperator(
+    create_model_version = CreateModelVersionOperator(
         task_id='create_model_version',
         name='census_pred1',
         source='dbfs:/databricks/mlflow-tracking/2440198899248958/a30d7eba481f4c14ad3b1a4d76c8187a/artifacts/model',

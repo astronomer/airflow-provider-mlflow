@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Any, Dict, Optional
 
 import requests
@@ -7,13 +8,13 @@ from requests.auth import HTTPBasicAuth
 
 class MLflowClientHook(BaseHook):
     """
-    Sample Hook that interacts with an HTTP endpoint the Python requests library.
+    Hook that interacts with an HTTP endpoint with Python requests library.
+    This hook is used to interact with the MLflow REST API. https://www.mlflow.org/docs/latest/rest-api.html
 
     :param method: the API method to be called
     :type method: str
     :param mlflow_conn_id: connection that has the base API url i.e https://www.google.com/
-        and optional authentication credentials. Default headers can also be specified in
-        the Extra field in json format.
+        and optional authentication credentials.
     :type mlflow_conn_id: str
     :param auth_type: The auth type for the service
     :type auth_type: AuthBase of python requests lib
@@ -80,13 +81,13 @@ class MLflowClientHook(BaseHook):
 
     def run(
             self,
-            endpoint: Optional[str] = None,
-            headers: Optional[Dict[str, Any]] = None,
-            request_params: Optional[Dict[str, Any]] = None,
+            endpoint: str | None = None,
+            headers: Dict[str, Any] | None = None,
+            request_params: Dict[str, Any] | None = None,
             **request_kwargs: Any,
     ) -> Any:
-        r"""
-        Performs the request
+        """
+        Executes the request
 
         :param endpoint: the endpoint to be called i.e. resource/v1/query?
         :type endpoint: str

@@ -7,7 +7,8 @@ from airflow.hooks.base import BaseHook
 
 class MLflowBaseHook(BaseHook):
     """
-    Base for MLflow hooks that interacts with a Python API
+    Base for MLflow hooks that interacts with a Python API.
+    This is not used by the client hook which uses the requests library.
 
     :param mlflow_conn_id: mlflow http connection
     :type mlflow_conn_id: str
@@ -35,7 +36,8 @@ class MLflowBaseHook(BaseHook):
 
     def _set_env_variables(self, other_env: Optional[Dict[str, str]] = None):
         """
-        MLflow Python API requires that auth credentials are stored in ENV Variables
+        MLflow Python API requires that auth credentials are stored in ENV Variables.
+        This method sets those variables based on connection info.
 
         :param other_env: Optionally provide additional creds for other systems like Sagemaker
         :type other_env: dict
@@ -51,8 +53,9 @@ class MLflowBaseHook(BaseHook):
             os.environ['MLFLOW_TRACKING_URI'] = conn.host
 
         if conn.login == 'token':
-            os.environ['MLFLOW_TRACKING_TOKEN'] = conn.host
-        else:
+            os.environ['MLFLOW_TRACKING_TOKEN'] = conn.password
+        elif conn.login and conn.password:
+            os.environ['LOGNAME'] = conn.login
             os.environ['MLFLOW_TRACKING_USERNAME'] = conn.login
             os.environ['MLFLOW_TRACKING_PASSWORD'] = conn.password
 

@@ -1,6 +1,7 @@
+from __future__ import annotations
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Any, Dict, Optional, Union, List, Sequence
+from typing import Any, Dict, Union, List, Sequence
 
 from numpy import ndarray
 from pandas.core.frame import DataFrame
@@ -23,15 +24,15 @@ def _model_load_and_predict(
         suppress_warnings,
         dst_path,
         data,
-        data_string
 ):
     """
     Python Callable passed to _BasePythonVirtualenvOperator
+
     :param host: MLflow host
     :type host: str
     :param login: MLflow login (for API keys use 'token')
     :type login: str
-    :param password: MLflow password (if using an API Key use that)
+    :param password: MLflow password (if using an API Key use that here)
     :type password: str
     :param model_uri: MLflow model URI
     :type model_uri: str
@@ -41,8 +42,6 @@ def _model_load_and_predict(
     :type dst_path: Optional[str]
     :param data: Model input
     :type data: Union[pandas.DataFrame, numpy.ndarray, scipy.sparse.(csc.csc_matrix | csr.csr_matrix), List[Any], or Dict[str, numpy.ndarray].
-    :param data_string: Model input as a string representation of list
-    :type data: str
     :return: Predictions/Inference results
     """
 
@@ -60,8 +59,9 @@ def _model_load_and_predict(
         os.environ['MLFLOW_TRACKING_URI'] = host
 
     if login == 'token':
-        os.environ['MLFLOW_TRACKING_TOKEN'] = host
+        os.environ['MLFLOW_TRACKING_TOKEN'] = password
     else:
+        os.environ['LOGNAME'] = login
         os.environ['MLFLOW_TRACKING_USERNAME'] = login
         os.environ['MLFLOW_TRACKING_PASSWORD'] = password
 
@@ -74,10 +74,8 @@ def _model_load_and_predict(
     )
 
     # Run Inference and convert results to list of json depending on result type
-    if data is None:
-        print(data_string)
-        print(type(data_string))
-        result = loaded_model.predict(data=nparray(data_string))
+    if isinstance(data, list):
+        result = loaded_model.predict(data=nparray(data))
     else:
         result = loaded_model.predict(data=data)
 
@@ -87,7 +85,7 @@ def _model_load_and_predict(
         return result.to_json()
 
 
-class AirflowPredict(_BasePythonVirtualenvOperator):
+class ModelLoadAndPredictOperator(_BasePythonVirtualenvOperator):
     """
     Deploy MLflow models
 
@@ -111,7 +109,7 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
     template_fields: Sequence[str] = (
         'model_uri',
         'dst_path',
-        'data_string',
+        'data',
         "op_args", "op_kwargs"
     )
     template_fields_renderers = {"op_args": "py", "op_kwargs": "py"}
@@ -125,9 +123,8 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
             mlflow_conn_id: str = 'mlflow_default',
             model_uri: str,
             suppress_warnings: bool = False,
-            dst_path: Optional[str] = None,
-            data: Optional[Union[DataFrame, Series, ndarray, csc_matrix, csr_matrix, List[Any], Dict[str, Any]]]=None,
-            data_string: Optional[str] = None,
+            dst_path: str | None = None,
+            data: Union[DataFrame, Series, ndarray, csc_matrix, csr_matrix, List[Any], Dict[str, Any]],
             # python_callable: Optional[Callable] = _model_load_and_predict,
             **kwargs: Any
     ) -> None:
@@ -138,7 +135,6 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
         self.suppress_warnings = suppress_warnings
         self.dst_path = dst_path
         self.data = data
-        self.data_string = data_string
         self.conn = BaseHook.get_connection(self.mlflow_conn_id)
         if kwargs.get('xcom_push') is not None:
             raise AirflowException(
@@ -155,7 +151,6 @@ class AirflowPredict(_BasePythonVirtualenvOperator):
                 'suppress_warnings':self.suppress_warnings,
                 'dst_path':self.dst_path,
                 'data':self.data,
-                'data_string':self.data_string
             },
             string_args=None,
             templates_dict=None,

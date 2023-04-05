@@ -1,4 +1,6 @@
-from typing import Any, Dict, Optional
+from __future__ import annotations
+
+from typing import Any, Dict
 
 from mlflow.deployments import BaseDeploymentClient, get_deploy_client
 
@@ -7,7 +9,8 @@ from mlflow_provider.hooks.base import MLflowBaseHook
 
 class MLflowDeploymentHook(MLflowBaseHook):
     """
-    Sample Hook that interacts with an HTTP endpoint the Python requests library.
+    Hook that interacts with the mlflow.deployments module in the MLflow library.
+    https://www.mlflow.org/docs/latest/python_api/mlflow.deployments.html
 
     :param aws_conn_id: AWS connection to use with hook
     :type aws_conn_id: str
@@ -15,7 +18,6 @@ class MLflowDeploymentHook(MLflowBaseHook):
     :type target_uri: str
     """
 
-    # TODO update hook names to match Airflow naming convention
     hook_name = 'MLflow Deployment'
 
     def __init__(
@@ -70,10 +72,27 @@ class MLflowDeploymentHook(MLflowBaseHook):
             self,
             name: str,
             model_uri: str,
-            flavor: Optional[str] = None,
-            config: Optional[dict] = None,
-            endpoint: Optional[str] = None
+            flavor: str | None = None,
+            config: dict | None = None,
+            endpoint: str | None = None
     ):
+        """
+        Creates a deployment in the target system.
+        https://www.mlflow.org/docs/latest/python_api/mlflow.deployments.html#mlflow.deployments.BaseDeploymentClient.create_deployment
+
+        :param name: Unique name to use for deployment.
+        :type name: str
+        :param model_uri: URI of model to deploy
+        :type model_uri: str
+        :param flavor: (optional) Model flavor to deploy. If unspecified, a default flavor will be chosen.
+        :type flavor: str
+        :param config: (optional) Dict containing updated target-specific configuration for the deployment
+        :type config: dict
+        :param endpoint: (optional) Endpoint to create the deployment under. May not be supported by all targets
+        :type endpoint: str
+        :return: Dict corresponding to created deployment, which must contain the ‘name’ key.
+        :rtype: dict
+        """
         client = self.get_conn()
 
         result = client.create_deployment(
@@ -95,6 +114,18 @@ class MLflowDeploymentHook(MLflowBaseHook):
             inputs: Any,
             endpoint: str | None = None
     ):
+        """
+        Makes a prediction request to the specified deployment. https://www.mlflow.org/docs/latest/python_api/mlflow.deployments.html#mlflow.deployments.BaseDeploymentClient.predict
+
+        :param deployment_name: Name of deployment to predict against
+        :type deployment_name: str
+        :param inputs: Input data (or arguments) to pass to the deployment or model endpoint for inference
+        :type inputs: Any
+        :param endpoint: Endpoint to predict against. May not be supported by all targets
+        :type endpoint:
+        :return: A mlflow.deployments.PredictionsResponse instance representing the predictions and associated Model Server response metadata as a JSON.
+        :rtype: dict
+        """
         client = self.get_conn()
 
         result = client.predict(
