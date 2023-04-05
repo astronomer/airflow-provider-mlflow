@@ -10,7 +10,6 @@ from pandas import DataFrame
 
 from mlflow_provider.operators.deployment import *
 
-log = logging.getLogger(__name__)
 
 TEST_MLFLOW_CONN_ID = 'mlflow_conn'
 TEST_NAME = 'test_model_name'
