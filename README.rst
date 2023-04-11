@@ -39,6 +39,13 @@ Connection Type: HTTP
 
 Examples can be found in the `example_dags <https://github.com/astronomer/airflow-provider-mlflow/tree/main/example_dags>`_ directory of the repo.
 
+Changelog
+---------
+
+We follow `Semantic Versioning <https://semver.org/>`_ for releases.
+Check `CHANGELOG.rst <https://github.com/astronomer/airflow-provider-mlflow/blob/main/CHANGELOG.rst>`_
+for the latest changes.
+
 
 License
 -------
