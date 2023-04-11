@@ -6,6 +6,9 @@ MLflow Provider Package for Apache Airflow
 .. image:: https://readthedocs.org/projects/airflow-provider-mlflow/badge/?version=latest
     :target: https://airflow-provider-mlflow.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
+.. image:: https://img.shields.io/pypi/l/astronomer-providers?color=blue
+    :target: https://img.shields.io/pypi/l/astronomer-providers?color=blue
+    :alt: PyPI - License
 
 An `Apache Airflow <https://airflow.apache.org/>`_ provider to interact with MLflow using Operators and Hooks for the following:
 
