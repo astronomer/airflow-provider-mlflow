@@ -73,6 +73,8 @@ def _model_load_and_predict(
         dst_path=dst_path
     )
 
+    loaded_model.metadata.signature = None
+
     # Run Inference and convert results to list of json depending on result type
     if isinstance(data, list):
         result = loaded_model.predict(data=nparray(data))
