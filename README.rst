@@ -1,5 +1,9 @@
 MLflow Provider Package for Apache Airflow
 ==========================================
+
+.. image:: https://badge.fury.io/py/airflow-provider-mlflow.svg
+    :target: https://badge.fury.io/py/airflow-provider-mlflow
+    :alt: PyPI Version
 .. image:: https://img.shields.io/pypi/pyversions/airflow-provider-mlflow
     :target: https://img.shields.io/pypi/pyversions/airflow-provider-mlflow
     :alt: PyPI - Python Version
