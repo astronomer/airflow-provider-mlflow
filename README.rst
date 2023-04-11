@@ -11,11 +11,31 @@ https://mlflow.org/docs/latest/index.html
 
 Quick Start
 -----------
-Install and update using pip:
+**Install and update using pip:**
 
 .. code-block:: bash
 
     pip install airflow-provider-mlflow
+
+**Setting up Connections:**
+
+Connection Type: HTTP
+
+- Local MLflow
+    - Host: http://localhost (if running Airflwo in docker: http://host.docker.internal)
+    - Port: 5000
+
+- Hosted with Username/Password
+    - Connection Type: HTTP
+    - Host: Your MLflow host URL
+    - Login: Your MLflow username
+    - Password: Your MLflow password
+
+- Databricks
+    - Host: Your Databricks host URL (https://<instance-name>.cloud.databricks.com)
+    - Login: 'token'
+    - Password: Your Databricks token
+
 
 Examples can be found in the `example_dags <https://github.com/astronomer/airflow-provider-mlflow/tree/main/example_dags>`_ directory of the repo.
 
