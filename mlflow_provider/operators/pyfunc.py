@@ -7,10 +7,8 @@ from numpy import ndarray
 from pandas.core.frame import DataFrame
 from pandas.core.series import Series
 from airflow.exceptions import AirflowException
-from airflow.hooks.base import BaseHook
 from airflow.operators.python import _BasePythonVirtualenvOperator
 from airflow.utils import python_virtualenv
-from airflow.utils.decorators import apply_defaults
 from scipy.sparse import csc_matrix, csr_matrix
 
 from mlflow_provider.hooks.pyfunc import MLflowPyfuncHook
@@ -118,7 +116,6 @@ class ModelLoadAndPredictOperator(_BasePythonVirtualenvOperator):
     template_ext = ()
     ui_color = '#f4a460'
 
-    @apply_defaults
     def __init__(
             self,
             *,
@@ -127,7 +124,6 @@ class ModelLoadAndPredictOperator(_BasePythonVirtualenvOperator):
             suppress_warnings: bool = False,
             dst_path: str | None = None,
             data: Union[DataFrame, Series, ndarray, csc_matrix, csr_matrix, List[Any], Dict[str, Any]],
-            # python_callable: Optional[Callable] = _model_load_and_predict,
             **kwargs: Any
     ) -> None:
         self.requirements = None
@@ -137,7 +133,6 @@ class ModelLoadAndPredictOperator(_BasePythonVirtualenvOperator):
         self.suppress_warnings = suppress_warnings
         self.dst_path = dst_path
         self.data = data
-        self.conn = BaseHook.get_connection(self.mlflow_conn_id)
         if kwargs.get('xcom_push') is not None:
             raise AirflowException(
                 "'xcom_push' was deprecated, use 'BaseOperator.do_xcom_push' instead")
@@ -146,9 +141,9 @@ class ModelLoadAndPredictOperator(_BasePythonVirtualenvOperator):
             use_dill=False,
             op_args=None,
             op_kwargs={
-                'host':self.conn.host,
-                'login':self.conn.login,
-                'password':self.conn.password,
+                "host": f"{{{{ conn.{self.mlflow_conn_id}.host }}}}",
+                "login": f"{{{{ conn.{self.mlflow_conn_id}.login }}}}",
+                "password": f"{{{{ conn.{self.mlflow_conn_id}.password }}}}",
                 'model_uri':self.model_uri,
                 'suppress_warnings':self.suppress_warnings,
                 'dst_path':self.dst_path,
