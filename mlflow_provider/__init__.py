@@ -1,13 +1,14 @@
-## This is needed to allow Airflow to pick up specific metadata fields it needs for certain features. We recognize it's a bit unclean to define these in multiple places, but at this point it's the only workaround if you'd like your custom conn type to show up in the Airflow UI.
+## This is needed to allow Airflow to pick up specific metadata fields it needs for certain features.
 
-__version__ = "1.0.1"
+__version__ = "1.1.0"
 
 def get_provider_info():
     return {
-        "package-name": "airflow-provider-sample", # Required
-        "name": "Sample Airflow Provider", # Required
-        "description": "A sample template for airflow providers.", # Required
-        "hook-class-names": ["mlflow_provider.hooks.sample_hook.MLflowHook"],
-        "extra-links": ["mlflow_provider.operators.sample_operator.ExtraLink"],
+        "package-name": "airflow-provider-mlflow", # Required
+        "name": "MLflow", # Required
+        "description": "An MLflow Provider Package for Apache Airflow.", # Required
+        "connection-types": [
+            {"connection-type": "http", "hook-class-name": "mlflow_provider.hooks.base.MLflowBaseHook"}
+        ],
         "versions": [__version__] # Required
     }
