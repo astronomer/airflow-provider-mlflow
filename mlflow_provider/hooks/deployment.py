@@ -1,8 +1,15 @@
 from __future__ import annotations
 
-from typing import Any, Dict
+from typing import Any, Dict, TYPE_CHECKING
 
-from mlflow.deployments import BaseDeploymentClient, get_deploy_client
+try:
+    from mlflow.deployments import get_deploy_client
+except ModuleNotFoundError:
+    import warnings
+    warnings.warn("Could not import mlflow.deployments. Did you install `python-api` extra?")
+
+if TYPE_CHECKING:
+    from mlflow.deployments import BaseDeploymentClient
 
 from mlflow_provider.hooks.base import MLflowBaseHook
 
@@ -56,7 +63,6 @@ class MLflowDeploymentHook(MLflowBaseHook):
         """
         Returns MLflow deployment Client.
         """
-
         target_conn_type = self.get_connection(self.target_conn_id).conn_type
 
         # TODO see if other connection types for AWS need to be handled
