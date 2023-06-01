@@ -1,17 +1,20 @@
 from __future__ import annotations
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Any, Dict, Union, List, Sequence
+from typing import Any, Dict, Union, List, Sequence, TYPE_CHECKING
 
-from numpy import ndarray
-from pandas.core.frame import DataFrame
-from pandas.core.series import Series
 from airflow.exceptions import AirflowException
 from airflow.operators.python import _BasePythonVirtualenvOperator
 from airflow.utils import python_virtualenv
-from scipy.sparse import csc_matrix, csr_matrix
 
 from mlflow_provider.hooks.pyfunc import MLflowPyfuncHook
+
+if TYPE_CHECKING:
+    from numpy import ndarray
+    from pandas.core.frame import DataFrame
+    from pandas.core.series import Series
+    from scipy.sparse import csc_matrix, csr_matrix
+
 
 
 def _model_load_and_predict(
