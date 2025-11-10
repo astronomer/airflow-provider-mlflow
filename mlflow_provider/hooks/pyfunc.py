@@ -1,4 +1,13 @@
-from mlflow import pyfunc
+from __future__ import annotations
+
+
+try:
+    from mlflow import pyfunc
+except ModuleNotFoundError:
+    import warnings
+    warnings.warn("Could not import mlflow. Did you install `python-api` extra?")
+
+
 
 from mlflow_provider.hooks.base import MLflowBaseHook
 
